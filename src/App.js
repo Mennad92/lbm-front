@@ -1,6 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from './Image/logo.png';
+import logo2 from './Image/logo (2).png';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -9,6 +10,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import connectIcon from './Image/connex.png';
 import panierIcon from './Image/panier.png';
+import locIcon from './Image/location (2).png';
+import phonIcon from './Image/phone2.png';
+import mailIcon from './Image/mail.png';
+import instaIcon from './Image/insta.png';
+import faceIcon from './Image/face.png';
 // Importez vos images pour le carousel
 import slide1 from './Image/accueil.png';
 import slide2 from './Image/biscuits.jpg';
@@ -16,6 +22,12 @@ import slide3 from './Image/cuisine.png';
 import card1 from './Image/anis.jpg';
 import card2 from './Image/baklavas.jpg';
 import art1 from './Image/coque.jpg';
+import art2 from './Image/rouleau.jpg';
+import lab1 from './Image/charte.png';
+import lab2 from './Image/Ecocert.png';
+import lab3 from './Image/Logos-Bio.png';
+import lab4 from './Image/europeco.jpg';
+import lab5 from './Image/logo2024.png';
 
 
 function App() {
@@ -41,7 +53,9 @@ function App() {
             </div>
           </Container>
         </Navbar>
-        {/*dont act like you forgot*/}
+
+        {/* dont act like you forgot */}
+
         <Navbar className='megrim m-0 border-top'>
           <Container fluid className="p-0">
             <Nav className="w-100 d-flex">
@@ -58,6 +72,7 @@ function App() {
       </header>
 
       {/* Carousel */}
+
       <Carousel className='pb-5 mb-5 bg-warning'>
         <Carousel.Item>
           <img
@@ -82,7 +97,8 @@ function App() {
         </Carousel.Item>
       </Carousel>
 
-      {/*Nos produits*/}
+      {/* Nos produits */}
+
       <div className="position-relative bg-warning mt-5" style={{ height: '80vh', width: '99vw' }}>
         <Card className="position-absolute top-5 start-5 m-3" style={{ width: '25rem' }}>
           <Card.Img variant="top" src={card1} />
@@ -106,9 +122,12 @@ function App() {
           </Card.Body>
         </Card>
       </div>
+
+      {/* art1 */}
+
       <Container fluid className="p-5 d-flex align-items-center">
         <img
-          className="d-block m-5 rounded-circle" style={{width: "60%"}}
+          className="d-block m-5 rounded-circle" style={{ width: "60%" }}
           src={art1}
           alt="Qui sommes nous"
         />
@@ -124,10 +143,94 @@ function App() {
         </div>
       </Container>
 
-      <div>
-        <h3 className='text-center fs-1'>Label de confiance</h3>
-        
+      {/* label */}
+
+      <div className=' bg-warning'><h3 className='text-center fs-1'>Label de confiance</h3>
+        <div className='d-flex align-items-center'>
+          <img
+            className="d-bloc mx-auto" style={{ width: "161px" }}
+            src={lab1}
+            alt="Qui sommes nous"
+          />
+          <img
+            className="d-block mx-auto" style={{ width: "161px" }}
+            src={lab2}
+            alt="Qui sommes nous"
+          />
+          <img
+            className="d-block mx-auto" style={{ width: "161px" }}
+            src={lab3}
+            alt="Qui sommes nous"
+          />
+          <img
+            className="d-block mx-auto" style={{ width: "161px" }}
+            src={lab4}
+            alt="Qui sommes nous"
+          />
+          <img
+            className="d-block mx-auto" style={{ width: "161px" }}
+            src={lab5}
+            alt="Qui sommes nous"
+          />
+        </div>
       </div>
+      {/* art2 */}
+      <Container fluid className="p-5 d-flex align-items-center">
+        <img
+          className="d-block m-5 rounded-circle" style={{ width: "60%" }}
+          src={art2}
+          alt="Qui sommes nous"
+        />
+        <div>
+          <h4 className='text-center mb-4'>Comment nous fonctionnons ?</h4>
+          <p className='text-center mx-auto w-75'>
+            Nous travaillons dans notre laboratoire à Paris, nous avons notre boutique en ligne et nous livrons dans toute l’île de France.
+          </p>
+        </div>
+      </Container>
+
+      {/* footer */}
+
+      <footer className='bg-black text-white'>
+  <div className='m-0 d-flex'><Container className='w-50'>
+    <img
+      className="pt-5" style={{ width: '100%' }}
+      src={logo2}
+      alt="logo-dark"
+    />
+    <img
+      className="d-block mx-auto" style={{ width: '6%' }}
+      src={locIcon}
+      alt="logo-dark"
+    />
+    <p className='d-block fs-4 m-0 text-center'>51 Boulevard Exelmans</p>
+    <p className='d-block fs-4 m-0 text-center'>75016 Paris</p>
+    <p className='d-block fs-4 m-0 mb-5 text-center'>FRANCE</p>
+  </Container>
+  <Container className='w-50 mx-auto'>
+    <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+      <img className="me-3" style={{ width: '6%' }} src={phonIcon} alt="logo-dark" />
+      <p className="mb-0">06 10 80 53 21</p>
+    </div>
+    <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+      <img className="me-3" style={{ width: '6%' }} src={mailIcon} alt="logo-dark" />
+      <p className="mb-0">Lesbiscuitsdemaman@gmail.com</p>
+    </div>
+    <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+      <img className="me-3" style={{ width: '6%' }} src={instaIcon} alt="logo-dark" />
+      <p className="mb-0">Les biscuits de maman</p>
+    </div>
+    <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+      <img className="me-3" style={{ width: '6%' }} src={faceIcon} alt="logo-dark" />
+      <p className="mb-0">Les biscuits de maman</p>
+    </div>
+  </Container></div>
+{/* Copyright */}
+<div className='text-center border-top border-white py-3'>
+  © 2024 - Les Biscuits de Maman - <u>TOUS DROITS RÉSERVÉS</u>
+</div>
+</footer>
+
     </div>
   );
 }
