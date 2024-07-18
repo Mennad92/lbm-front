@@ -13,7 +13,7 @@
 }
 
 .icon{
-  height: 35px;
+  height: 45px;
 }
 .navbar-container {
   position: relative;
@@ -27,4 +27,68 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.bg-creme{
+  background-color: #EDDFBD;
+}
+
+.text-creme{
+  color: #B08553;
+}
+
+.product{
+  position: relative;
+  width: 100%;
+  height: 800px;
+  background-color:#EDDFBD;
+  overflow: visible;
+}
+.card2 {
+  width: 520px;
+  height: 590px;
+  border-radius: 215px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Pour commencer les éléments depuis le haut */
+}
+
+.card2 img {
+  width: 90%;
+  height: 50%;
+  margin-top: 20px; /* Espace entre le haut de la carte et l'image */
+  border-radius: inherit;
+}
+
+.card2 .card-body {
+  width: 100%;
+  text-align: center;
+  padding-top: 30px; /* Ajustez l'espace entre l'image et le texte */
+}
+
+.card2.top-left {
+  top: -50px; 
+  left: 150px; 
+}
+
+.card2.bottom-right {
+  bottom: -50px; 
+  left: 1050px;
+}
+.center-text {
+  position: absolute;
+  font-family: 'Megrim';
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 64px; /* Ajustez la taille de la police selon vos besoins */
+  z-index: 1; /* Assurez-vous que le texte reste au-dessus des autres éléments */
+  padding: 10px; /* Optionnel : un peu de padding autour du texte */
+  border-radius: 10px; /* Optionnel : arrondir les coins du fond */
 }
