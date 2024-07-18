@@ -4,24 +4,35 @@
 
 .App{
   font-family: 'Libre Caslon Display', serif;
+  overflow-x: hidden;
 }
 .megrim {
   font-family: 'Megrim', sans-serif;
 }
-.logo{
-  height: 120px;
+.logo {
+  height: 80px;
+  @media (min-width: 768px) {
+    height: 120px;
+  }
 }
 
-.icon{
-  height: 45px;
+.icon {
+  height: 30px;
+  @media (min-width: 768px) {
+    height: 45px;
+  }
 }
 .navbar-container {
   position: relative;
 }
 
 .navbar-placeholder {
-  width: 120px; /* Ajustez cette largeur selon la taille des éléments dans le navbar collapse */
+  width: 80px;
+  @media (min-width: 768px) {
+    width: 120px;
+  }
 }
+
 
 .navbar-collapse-container {
   display: flex;
@@ -55,7 +66,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Pour commencer les éléments depuis le haut */
+  justify-content: flex-start;
+}
+.center-text {
+  position: absolute;
+  font-family: 'Megrim';
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 64px; /* Ajustez la taille de la police selon vos besoins */
+  z-index: 1; /* Assurez-vous que le texte reste au-dessus des autres éléments */
+  padding: 10px; /* Optionnel : un peu de padding autour du texte */
+  border-radius: 10px; /* Optionnel : arrondir les coins du fond */
 }
 
 .card2 img {
@@ -80,15 +103,77 @@
   bottom: -50px; 
   left: 1050px;
 }
+@media (max-width: 1700px) {
+  .card2 {
+    width: 442px;
+    height: 501.5px;
+    border-radius: 155px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: small;
+  }
+  .card2 .card-body {
+    width: 100%;
+    text-align: center;
+    padding-top: 30px; /* Ajustez l'espace entre l'image et le texte */
+  }
+  
+  .card2.top-left {
+    top: -50px; 
+    left: 100px; 
+  }
+  
+  .card2.bottom-right {
+    bottom: -50px; 
+    left: 1050px;
+  }  
+}
+
+@media (max-width: 1500px) {
+  .card2 {
+    border-radius: 155px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: small;
+  }
+  .card2 .card-body {
+    width: 100%;
+    text-align: center;
+    padding-top: 30px; /* Ajustez l'espace entre l'image et le texte */
+  }
+  
+  .card2.top-left,
+  .card2.bottom-right {
+    left: auto;
+  }
+}
+  .card2.top-left {
+    top: -250px;
+  }
+  
+  .card2.bottom-right {
+    bottom: -250px; 
+  }
+
 .center-text {
   position: absolute;
   font-family: 'Megrim';
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 64px; /* Ajustez la taille de la police selon vos besoins */
-  z-index: 1; /* Assurez-vous que le texte reste au-dessus des autres éléments */
-  padding: 10px; /* Optionnel : un peu de padding autour du texte */
-  border-radius: 10px; /* Optionnel : arrondir les coins du fond */
+  text-align: center; 
+  font-size: 64px; 
+  z-index: 1; 
+  padding: 10px; 
 }
