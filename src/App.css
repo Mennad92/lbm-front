@@ -28,10 +28,11 @@
 
 .navbar-placeholder {
   width: 80px;
-  @media (max-width: 768px) {
-   display: none;
+  @media (min-width: 768px) {
+    width: 120px;
   }
 }
+
 
 .navbar-collapse-container {
   display: flex;
@@ -68,10 +69,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 64px;
-  z-index: 1; 
-  padding: 10px; 
-  border-radius: 10px; 
+  font-size: 64px; /* Ajustez la taille de la police selon vos besoins */
+  z-index: 1; /* Assurez-vous que le texte reste au-dessus des autres éléments */
+  padding: 10px; /* Optionnel : un peu de padding autour du texte */
+  border-radius: 10px; /* Optionnel : arrondir les coins du fond */
 }
 
 .card2 .card-body {
