@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
 
-.App{
+.Home{
   font-family: 'Libre Caslon Display', serif;
   overflow-x: hidden;
 }
@@ -28,11 +28,10 @@
 
 .navbar-placeholder {
   width: 80px;
-  @media (min-width: 768px) {
-    width: 120px;
+  @media (max-width: 768px) {
+   display: none;
   }
 }
-
 
 .navbar-collapse-container {
   display: flex;
@@ -55,26 +54,17 @@
   background-color:#EDDFBD;
   overflow: visible;
 }
-.card2 {
+/* .card2 {
   width: 520px;
   height: 590px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   align-items: center;
-}
+}*/
 .center-text {
-  position: absolute;
-  font-family: 'Megrim';
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 64px; /* Ajustez la taille de la police selon vos besoins */
-  z-index: 1; /* Assurez-vous que le texte reste au-dessus des autres éléments */
-  padding: 10px; /* Optionnel : un peu de padding autour du texte */
-  border-radius: 10px; /* Optionnel : arrondir les coins du fond */
+  font-size: 64px;
 }
-
+/*
 .card2 .card-body {
   width: 100%;
   text-align: center;
@@ -90,4 +80,4 @@
   font-size: 64px; 
   z-index: 1; 
   padding: 10px; 
-}
+} */
