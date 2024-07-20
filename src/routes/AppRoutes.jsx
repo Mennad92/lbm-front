@@ -5,6 +5,7 @@ import Cart from '../pages/Cart';
 import NotFound from '../pages/NotFound';
 import Pastries from '../pages/Pastries';
 import Biscuits from '../pages/Biscuits';
+import Login from '../pages/Login';
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/pastries" element={<Pastries />} />
       <Route path="/biscuits" element={<Biscuits />} />
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

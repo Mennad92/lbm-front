@@ -31,7 +31,7 @@ const Header = () => {
         </Navbar>
 
         {/* 2e navbar */}
-        <Navbar className='megrim m-0 border-top'>
+        <Navbar className='megrim m-0 border-top border-bottom'>
           <Container fluid className="p-0">
             <Nav className="w-100 d-flex">
             <Nav.Link as={Link} to="/biscuits" className='fs-1 flex-fill text-center position-relative'>
