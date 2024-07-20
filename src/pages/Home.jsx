@@ -44,50 +44,56 @@ function Home() {
 
       {/* Nos produits */}
 
-      <div className="product bg-creme mt-5">
+      <div className="product libre bg-creme mt-5">
 
-        <CardGroup><div className="card2">
-          <Card className='m-5' style={{ width: "28rem" }}>
-            <Card.Img variant="top" src={card1} alt="Biscuits" />
-            <Card.Body>
-              <Card.Title className='text-creme text-center fs-2'>Biscuits</Card.Title>
-              <Card.Text className='fs-4 w-75 text-center mx-auto mb-5'>
-                Savourez les Biscuits de Maman originaux fabriqués avec des produits 100% bio
-              </Card.Text>
-              <Button className='mx-auto' variant="primary">VISITER BISCUITERIE</Button>
-            </Card.Body>
-          </Card>
+      <CardGroup>
+  <div className="card2">
+    <Card className='m-5' style={{ width: "28rem" }}>
+      <Card.Img variant="top" src={card1} alt="Biscuits" />
+      <Card.Body>
+        <Card.Title className='text-center fs-2'> <span className='text-creme'>Biscuits</span></Card.Title>
+        <Card.Text className='fs-4 w-75 text-center mx-auto mb-5'>
+          Savourez les Biscuits de Maman originaux fabriqués avec des produits 100% bio
+        </Card.Text>
+        <div className="d-flex justify-content-center">
+          <Button variant="outline-primary">VISITER BISCUITERIE</Button>
         </div>
+      </Card.Body>
+    </Card>
+  </div>
 
-          <div className="text-center megrim m-5" style={{fontSize: '64px'}}>
-            NOS <br></br>PRODUITS
-          </div>
+  <Card className="text-center border-0 megrim my-auto" style={{fontSize: '64px'}}>
+    <Card.Body className='bg-creme'> NOS <br></br>PRODUITS</Card.Body>
+  </Card>
 
-          <div className="card2">
-            <Card className='m-5' style={{ width: "28rem" }}>
-              <Card.Img variant="top" src={card2} alt="Baklava" />
-              <Card.Body>
-                <Card.Title className='text-creme text-center fs-2'>Pâtisserie</Card.Title>
-                <Card.Text className='fs-4 w-75 mx-auto text-center mb-5'>
-                  Les pâtisseries Orientale de Sam Hattal sont les meilleures du monde.
-                </Card.Text>
-                <Button variant="primary">VISITER PÂTISSERIE</Button>
-              </Card.Body>
-            </Card>
-          </div>
-        </CardGroup>
+  <div className="card2">
+    <Card className='m-5' style={{ width: "28rem" }}>
+      <Card.Img variant="top" src={card2} alt="Baklava" />
+      <Card.Body>
+        <Card.Title className='text-creme text-center fs-2'><span className='text-creme'>Pâtisseries</span></Card.Title>
+        <Card.Text className='fs-4 w-75 mx-auto text-center mb-5'>
+          Les pâtisseries Orientale de Sam Hattal sont les meilleures du monde.
+        </Card.Text>
+        <div className="d-flex justify-content-center">
+          <Button variant="outline-primary">VISITER PÂTISSERIE</Button>
+        </div>
+      </Card.Body>
+    </Card>
+  </div>
+</CardGroup>
+
       </div>
 
       {/*Art 1 */}
 
       <Container fluid className="p-5 fs-4 align-items-center">
         <img
-          className="d-block m-5 rounded-circle" style={{ width: "60%" }}
+          className="d-block mx-auto rounded-circle" style={{ width: "60%" }}
           src={art1}
           alt="Qui sommes nous"
         />
         <div>
-          <h4 className='text-center text-creme mb-4'>Qui sommes nous ?</h4>
+          <h4 className='text-center text-creme my-4'>Qui sommes nous ?</h4>
           <p className='text-center mx-auto w-75'>
             Nous sommes une biscuiterie artisanale usant des produits d’agriculture 100 % bio spécialisé dans les biscuits au goûts de fruits sec et fruits à coque (amandes, pistaches, noix, etc...).
           </p>

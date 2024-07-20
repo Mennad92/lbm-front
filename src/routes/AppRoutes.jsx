@@ -6,6 +6,9 @@ import NotFound from '../pages/NotFound';
 import Pastries from '../pages/Pastries';
 import Biscuits from '../pages/Biscuits';
 import Login from '../pages/Login';
+import PrivateRoute from '../components/PrivateRoute';
+import ProtectedComponent from '../components/ProtectedComponent';
+import Logout from '../pages/Logout';  // Ajoutez la route de déconnexion si nécessaire
 
 const AppRoutes = () => {
   return (
@@ -15,6 +18,10 @@ const AppRoutes = () => {
       <Route path="/pastries" element={<Pastries />} />
       <Route path="/biscuits" element={<Biscuits />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
+      
+      <Route path="/protected" element={<PrivateRoute element={<ProtectedComponent />} />} />
+      
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

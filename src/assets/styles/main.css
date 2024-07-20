@@ -3,8 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
 
 .Home{
-  font-family: 'Libre Caslon Display', serif;
   overflow-x: hidden;
+}
+.libre {
+  font-family: 'Libre Caslon Display', serif;
 }
 .megrim {
   font-family: 'Megrim', sans-serif;
@@ -47,13 +49,6 @@
   color: #B08553;
 }
 
-.product{
-  position: relative;
-  width: 100%;
-  height: 800px;
-  background-color:#EDDFBD;
-  overflow: visible;
-}
 /* .card2 {
   width: 520px;
   height: 590px;

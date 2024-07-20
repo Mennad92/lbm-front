@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';  
 
 const Login = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  
+  if (isAuthenticated) {
+    navigate('/logout');
+    return null;  
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,13 +25,15 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/token/', {
+      const response = await axios.post('http://127.0.0.1:8000/dj/login/', {
         username,
         password,
       });
       localStorage.setItem('accessToken', response.data.access);
       setError('');
+      navigate('/');  
     } catch (err) {
+      console.error(err);
       if (err.response && err.response.status === 401) {
         setError('Nom d’utilisateur ou mot de passe incorrect');
       } else {

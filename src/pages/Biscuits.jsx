@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProductList from '../components/Product/ProductList';
 import productService from "../services/productService";
+import Container from 'react-bootstrap/Container';
 
 const Biscuits = () => {
   const [products, setProducts] = useState([]);
@@ -15,12 +16,17 @@ const Biscuits = () => {
   }, [isFetched]);
   return (
     <div>
-      <h2>Biscuits</h2>
+      <Container className="my-5 rounded bg-light">
+      <h2 className="text-center libre p-5 fs-1">Les Biscuits</h2>
+
+
+      
       {products.length > 0 ? (
         <ProductList category="biscuits" products={{ products }} />
       ) : (
         <p>Aucun produit disponible pour cette catégorie.</p>
       )}
+      </Container>
     </div>
   );
 };
