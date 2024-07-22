@@ -27,19 +27,19 @@ const Footer = () => {
         <p className='d-block fs-4 m-0 mb-5 text-center'>FRANCE</p>
       </Container>
         <Container className='w-50 mx-auto'>
-          <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+          <div className="d-flex align-items-center justify-content-center mt-5">
             <img className="me-3" style={{ width: '6%' }} src={phonIcon} alt="logo-dark" />
             <p className="mb-0">06 10 80 53 21</p>
           </div>
-          <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+          <div className="d-flex align-items-center justify-content-center mt-5">
             <img className="me-3" style={{ width: '6%' }} src={mailIcon} alt="logo-dark" />
             <p className="mb-0">Lbm@gmail.com</p>
           </div>
-          <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+          <div className="d-flex align-items-center justify-content-center mt-5">
             <img className="me-3" style={{ width: '6%' }} src={instaIcon} alt="logo-dark" />
             <p className="mb-0">Les biscuits de maman</p>
           </div>
-          <div className="d-flex align-items-center justify-content-center mt-5 m-0">
+          <div className="d-flex align-items-center justify-content-center mt-5 mb-3">
             <img className="me-3" style={{ width: '6%' }} src={faceIcon} alt="logo-dark" />
             <p className="mb-0">Les biscuits de maman</p>
           </div>

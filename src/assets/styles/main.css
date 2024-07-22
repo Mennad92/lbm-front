@@ -3,8 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
 
 .Home{
-  font-family: 'Libre Caslon Display', serif;
   overflow-x: hidden;
+}
+.libre {
+  font-family: 'Libre Caslon Display', serif;
 }
 .megrim {
   font-family: 'Megrim', sans-serif;
@@ -15,7 +17,12 @@
     height: 120px;
   }
 }
-
+.product-img {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: cover; 
+  margin: 0 auto;
+}
 .icon {
   height: 30px;
   @media (min-width: 768px) {
@@ -47,37 +54,6 @@
   color: #B08553;
 }
 
-.product{
-  position: relative;
-  width: 100%;
-  height: 800px;
-  background-color:#EDDFBD;
-  overflow: visible;
-}
-/* .card2 {
-  width: 520px;
-  height: 590px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  align-items: center;
-}*/
 .center-text {
   font-size: 64px;
 }
-/*
-.card2 .card-body {
-  width: 100%;
-  text-align: center;
-  padding-top: 50px;
-}
-
-.center-text {
-  position: absolute;
-  font-family: 'Megrim';
-  top: 50%;
-  left: 50%;
-  text-align: center; 
-  font-size: 64px; 
-  z-index: 1; 
-  padding: 10px; 
-} */

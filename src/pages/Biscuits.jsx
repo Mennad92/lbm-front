@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from "react";
 import ProductList from '../components/Product/ProductList';
 import productService from "../services/productService";
+import Container from 'react-bootstrap/Container';
+import Ingredient from '../components/common/Ingredient';
 
 const Biscuits = () => {
   const [products, setProducts] = useState([]);
   const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
-    !isFetched &&
-      productService.getProducts().then((json) => {
+    if (!isFetched) {
+      productService.getProductsByCategory(1).then((json) => {
         setProducts(json);
         setIsFetched(true);
       });
+    }
   }, [isFetched]);
+
   return (
     <div>
-      <h2>Biscuits</h2>
-      {products.length > 0 ? (
-        <ProductList category="biscuits" products={{ products }} />
-      ) : (
-        <p>Aucun produit disponible pour cette catégorie.</p>
-      )}
+      <Container className="my-5 rounded border-1 border bg-light">
+        <h2 className="text-center libre p-5 fs-1">Les Biscuits</h2>
+        <Ingredient />
+        {products.length > 0 ? (
+          <ProductList products={products} />
+        ) : (
+          <p>Aucun produit disponible pour cette catégorie.</p>
+        )}
+      </Container>
     </div>
   );
 };
