@@ -10,25 +10,20 @@ const Pastries = () => {
 
   useEffect(() => {
     if (!isFetched) {
-      productService.getProducts().then((json) => {
-        console.log('Produits récupérés:', json);
-        const filteredProducts = json.filter(product => product.category === "pastries");
-        console.log('Produits filtrés:', filteredProducts);
-        setProducts(filteredProducts);
+      productService.getProductsByCategory(2).then((json) => {
+        setProducts(json);
         setIsFetched(true);
-      }).catch(error => {
-        console.error('Erreur lors de la récupération des produits:', error);
       });
     }
   }, [isFetched]);
 
   return (
     <div>
-      <Container className="my-5 rounded bg-light">
-        <h2 className="text-center libre p-5 fs-1">Les Pâtisseries</h2>
+      <Container className="my-5 rounded bg-light border-1 border ">
+        <h2 className="text-center libre p-5 fs-1">Les Pâtisseries Orientales</h2>
         <Ingredient />
         {products.length > 0 ? (
-          <ProductList category="pastries" products={products} />
+          <ProductList products={products} />
         ) : (
           <p>Aucun produit disponible pour cette catégorie.</p>
         )}

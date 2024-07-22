@@ -7,7 +7,7 @@ const Logout = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    navigate('/login');  // Redirige vers la page de connexion après la déconnexion
+    navigate('/login');
   };
 
   return (

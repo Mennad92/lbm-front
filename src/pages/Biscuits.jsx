@@ -10,7 +10,7 @@ const Biscuits = () => {
 
   useEffect(() => {
     if (!isFetched) {
-      productService.getProducts().then((json) => {
+      productService.getProductsByCategory(1).then((json) => {
         setProducts(json);
         setIsFetched(true);
       });
@@ -19,7 +19,7 @@ const Biscuits = () => {
 
   return (
     <div>
-      <Container className="my-5 rounded bg-light">
+      <Container className="my-5 rounded border-1 border bg-light">
         <h2 className="text-center libre p-5 fs-1">Les Biscuits</h2>
         <Ingredient />
         {products.length > 0 ? (

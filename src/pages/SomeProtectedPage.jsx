@@ -2,7 +2,7 @@ import React from 'react';
 import useAuth from '../hooks/useAuth';
 
 const SomeProtectedPage = () => {
-  useAuth(); // Vérifie l'authentification
+  useAuth();
 
   return (
     <div>

@@ -1,8 +1,12 @@
 import React from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Button } from 'react-bootstrap';
 
 const ProductList = ({ category, products = [] }) => {
   const productList = products; 
+
+  const handleAddToCart = (product) => {
+    console.log('Produit ajouté au panier:', product);
+  };
 
   return (
     <div className='text-center'>
@@ -26,6 +30,7 @@ const ProductList = ({ category, products = [] }) => {
                     <Card.Text>
                       <strong>Price:</strong> {formattedPrice}€
                     </Card.Text>
+                    <Button variant="secondary" onClick={() => handleAddToCart(product)}>Ajouter au panier</Button>
                   </Card.Body>
                 </Card>
               </Col>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
-import Cart from '../pages/Cart';
+import Cart from '../components/cart/Cart';
 import NotFound from '../pages/NotFound';
 import Pastries from '../pages/Pastries';
 import Biscuits from '../pages/Biscuits';
 import Login from '../pages/Login';
 import PrivateRoute from '../components/PrivateRoute';
 import ProtectedComponent from '../components/ProtectedComponent';
-import Logout from '../pages/Logout';  // Ajoutez la route de déconnexion si nécessaire
+import Logout from '../pages/Logout';
 
 const AppRoutes = () => {
   return (

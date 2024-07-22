@@ -1,4 +1,3 @@
-// src/BiscuitForm.js
 import React, { useState } from 'react';
 import { Container, Form, Dropdown } from 'react-bootstrap';
 import noisette from '../../assets/images/noisette.png';
