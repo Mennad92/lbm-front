@@ -13,7 +13,7 @@ const Login = () => {
 
   
   if (isAuthenticated) {
-    navigate('/logout');
+    navigate('/');
     return null;  
   }
 
