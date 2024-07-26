@@ -40,8 +40,8 @@ const Header = () => {
               <img src={logo} alt="Logo" className="logo my-4 mx-auto d-block" />
             </Navbar.Brand>
             <div>
-              <Nav className="ms-auto d-flex flex-row">
-                <Nav.Link onClick={handleOpenCart} style={{ cursor: 'pointer' }}>
+              <Nav className="ms-auto d-flex flex-row" style={{ cursor: 'pointer' }}>
+                <Nav.Link onClick={handleOpenCart} >
                   <img src={panierIcon} alt="Panier" className="icon" />
                 </Nav.Link>
                 <Dropdown align="end">

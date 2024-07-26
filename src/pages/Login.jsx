@@ -7,11 +7,11 @@ import useAuth from '../hooks/useAuth';
 const Login = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuth();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  
+
   if (isAuthenticated) {
     navigate('/');
     return null;  
@@ -19,14 +19,14 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
+    if (!email || !password) {
       setError('Tous les champs sont obligatoires');
       return;
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/dj/login/', {
-        username,
+      const response = await axios.post('http://localhost:8000/api/login/', {
+        email,
         password,
       });
       localStorage.setItem('accessToken', response.data.access);
@@ -49,12 +49,13 @@ const Login = () => {
           <h2 className="text-center m-5">Connexion</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
+            
             <Form.Group controlId="formBasicEmail">
               <Form.Label className='my-3 ms-1'>Mail :</Form.Label>
               <Form.Control
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Entrer votre mail"
                 aria-label="Email"
                 aria-required="true"

@@ -1,13 +1,13 @@
 function productService() {
   const getProducts = () => {
     return fetch("http://localhost:8000/api/products", {
-      method: "GET",
+      method: "GET"
     }).then((res) => res.json());
   };
 
   const getProductsByCategory = (categoryId) => {
     return fetch(`http://localhost:8000/api/products?category=${categoryId}`, {
-      method: "GET",
+      method: "GET"
     }).then((res) => res.json());
   };
 

@@ -25,7 +25,7 @@ const Biscuits = () => {
         {products.length > 0 ? (
           <ProductList products={products} />
         ) : (
-          <p>Aucun produit disponible pour cette catégorie.</p>
+          <p className="text-center m-3">Aucun produit disponible pour cette catégorie.</p>
         )}
       </Container>
     </div>

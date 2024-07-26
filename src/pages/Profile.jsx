@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
+
+fetch('http://localhost:8000/api/users/1/').then((response)=> {
+  response = response.json()
+  response.then((result) => {
+    console.log(result)
+  })
+})
+
 const Profile = () => {
 
   const [user, setUser] = useState({
@@ -47,7 +55,7 @@ const Profile = () => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 mb-5">
       <Row>
         <Col md={8} lg={6} className="mx-auto">
           <Card>
