@@ -2,44 +2,43 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
-  const isAuthenticated = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  
-  
-  if (isAuthenticated) {
-    navigate('/profil');
-    return null;
-  }
+  const [success, setSuccess] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+
+    if ( !email || !password || !confirmPassword) {
       setError('Tous les champs sont obligatoires');
       return;
     }
 
+    if (password !== confirmPassword) {
+      setError('Les mots de passe ne correspondent pas');
+      return;
+    }
+
     try {
-      const response = await axios.post('http://localhost:8000/api/login/', { email, password });
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
+      await axios.post('http://localhost:8000/api/register/', { email, password });
+      setSuccess('Inscription réussie. Vous pouvez maintenant vous connecter.');
       setError('');
-      navigate('/');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      console.error(err);
-      if (err.response && err.response.status === 401) {
-        setError('email ou mot de passe incorrect');
-      } else {
-        setError('Une erreur est survenue. Veuillez réessayer plus tard.');
-      }
+      setError('Une erreur est survenue. Veuillez réessayer plus tard.');
+      setSuccess('');
     }
   };
 
@@ -47,13 +46,15 @@ const Login = () => {
     <Container>
       <Row className="m-5 bg-light rounded border border-1 justify-content-md-center">
         <Col md={6} lg={4} className="mx-auto">
-          <h2 className="text-center m-5">Connexion</h2>
+          <h2 className="text-center m-5">S'inscrire</h2>
           {error && <Alert variant="danger">{error}</Alert>}
+          {success && <Alert variant="success">{success}</Alert>}
           <Form onSubmit={handleSubmit}>
+
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>email</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
-                type="mail"
+                type="email"
                 placeholder="Entrez votre email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -65,7 +66,7 @@ const Login = () => {
               <div className="d-flex align-items-center">
                 <Form.Control
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Entrez votre mot de passe"
+                  placeholder="*******"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -79,9 +80,28 @@ const Login = () => {
               </div>
             </Form.Group>
 
+            <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+              <Form.Label>Confirmer le mot de passe</Form.Label>
+              <div className="d-flex align-items-center">
+                <Form.Control
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="*******"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <Button
+                  variant="link"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  style={{ marginLeft: '10px', padding: '0', background: 'none', border: 'none' }}
+                >
+                  <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                </Button>
+              </div>
+            </Form.Group>
+
             <div className='d-flex justify-content-center'>
               <Button variant="outline-success" type="submit" className="px-5 my-3">
-                Connexion
+                S'inscrire
               </Button>
             </div>
           </Form>
@@ -91,4 +111,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

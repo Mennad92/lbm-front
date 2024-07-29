@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { useCart } from '../../contexts/CartContext';
 
 const ProductList = ({ category, products = [] }) => {
   const [quantities, setQuantities] = useState({});
+  const { addToCart } = useCart();
 
   const handleQuantityChange = (productId, change) => {
     setQuantities(prevQuantities => {
@@ -17,7 +19,7 @@ const ProductList = ({ category, products = [] }) => {
 
   const handleAddToCart = (product) => {
     const quantity = quantities[product.id] || 1;
-    console.log('Produit ajouté au panier:', product, 'Quantité:', quantity);
+    addToCart(product, quantity);
   };
 
   return (

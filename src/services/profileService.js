@@ -8,7 +8,7 @@ function profileService() {
     return fetch("http://localhost:8000/api/users/1", {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
     }).then((res) => {
@@ -28,7 +28,7 @@ function profileService() {
     return fetch("http://localhost:8000/api/users/1", { 
       method: "PUT",
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(profileData),

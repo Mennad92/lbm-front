@@ -1,162 +1,68 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
-
-
-fetch('http://localhost:8000/api/users/1/').then((response)=> {
-  response = response.json()
-  response.then((result) => {
-    console.log(result)
-  })
-})
+import React, { useState, useEffect } from 'react';
+import profileService from '../services/profileService';
 
 const Profile = () => {
+  const [profile, setProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedProfile, setUpdatedProfile] = useState({});
+  const [error, setError] = useState(null);
 
-  const [user, setUser] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    telephone: '',
-    adresse: {
-      rue: '',
-      codePostal: '',
-      ville: '',
-      pays: ''
-    }
-  });
-
-
-  const [formData, setFormData] = useState({ ...user });
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      adresse: {
-        ...prevData.adresse,
-        [name]: value
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const data = await profileService.getProfile();
+        setProfile(data);
+      } catch (err) {
+        setError('Erreur lors de la récupération du profil');
       }
-    }));
+    };
+
+    fetchProfile();
+  }, []);
+
+  const handleUpdate = async () => {
+    try {
+      await profileService.updateProfile(updatedProfile);
+      setProfile({ ...profile, ...updatedProfile });
+      setIsEditing(false);
+    } catch (err) {
+      setError('Erreur lors de la mise à jour du profil');
+    }
   };
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUser({ ...formData });
-    alert('Les informations ont été mises à jour !');
-  };
+  if (error) return <div>{error}</div>;
 
   return (
-    <Container className="mt-5 mb-5">
-      <Row>
-        <Col md={8} lg={6} className="mx-auto">
-          <Card>
-            <Card.Header as="h5">Profil de l'utilisateur</Card.Header>
-            <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                  <Col sm={4}><strong>Nom :</strong></Col>
-                  <Col sm={8}>
-                    <Form.Control
-                      type="text"
-                      name="nom"
-                      value={formData.nom}
-                      onChange={handleChange}
-                      placeholder="Nom"
-                    />
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col sm={4}><strong>Prénom :</strong></Col>
-                  <Col sm={8}>
-                    <Form.Control
-                      type="text"
-                      name="prenom"
-                      value={formData.prenom}
-                      onChange={handleChange}
-                      placeholder="Prénom"
-                    />
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col sm={4}><strong>Email :</strong></Col>
-                  <Col sm={8}>
-                    <Form.Control
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Email"
-                    />
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col sm={4}><strong>Téléphone :</strong></Col>
-                  <Col sm={8}>
-                    <Form.Control
-                      type="text"
-                      name="telephone"
-                      value={formData.telephone}
-                      onChange={handleChange}
-                      placeholder="Téléphone"
-                    />
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col sm={4}><strong>Adresse :</strong></Col>
-                  <Col sm={8}>
-                    <Form.Control
-                      type="text"
-                      name="rue"
-                      value={formData.adresse.rue}
-                      onChange={handleAddressChange}
-                      placeholder="Rue"
-                    />
-                    <Form.Control
-                      type="text"
-                      name="codePostal"
-                      value={formData.adresse.codePostal}
-                      onChange={handleAddressChange}
-                      placeholder="Code Postal"
-                      className="mt-2"
-                    />
-                    <Form.Control
-                      type="text"
-                      name="ville"
-                      value={formData.adresse.ville}
-                      onChange={handleAddressChange}
-                      placeholder="Ville"
-                      className="mt-2"
-                    />
-                    <Form.Control
-                      type="text"
-                      name="pays"
-                      value={formData.adresse.pays}
-                      onChange={handleAddressChange}
-                      placeholder="Pays"
-                      className="mt-2"
-                    />
-                  </Col>
-                </Row>
-                <div className='text-center'>
-                  <Button variant="outline-dark" className='' type="submit">
-                    Mettre à jour
-                  </Button>
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      {profile ? (
+        <div>
+          <h2>Profil</h2>
+          {isEditing ? (
+            <div>
+              <input
+                type="text"
+                value={updatedProfile.name || profile.name}
+                onChange={(e) => setUpdatedProfile({ ...updatedProfile, name: e.target.value })}
+              />
+              <input
+                type="email"
+                value={updatedProfile.email || profile.email}
+                onChange={(e) => setUpdatedProfile({ ...updatedProfile, email: e.target.value })}
+              />
+              <button onClick={handleUpdate}>Enregistrer</button>
+            </div>
+          ) : (
+            <div>
+              <p>Nom: {profile.name}</p>
+              <p>Email: {profile.email}</p>
+              <button onClick={() => setIsEditing(true)}>Modifier</button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div>Chargement...</div>
+      )}
+    </div>
   );
 };
 

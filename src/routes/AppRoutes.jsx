@@ -5,7 +5,8 @@ import NotFound from '../pages/NotFound';
 import Pastries from '../pages/Pastries';
 import Biscuits from '../pages/Biscuits';
 import Login from '../pages/Login';
-import Profile from '../pages/Profile'; // Importer le composant Profile
+import Profile from '../pages/Profile';
+import Register from '../pages/Register';
 import PrivateRoute from '../components/PrivateRoute';
 
 const AppRoutes = () => {
@@ -15,7 +16,8 @@ const AppRoutes = () => {
       <Route path="/pastries" element={<Pastries />} />
       <Route path="/biscuits" element={<Biscuits />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/profil" element={<PrivateRoute element={<Profile />} />} />
+      <Route path="/register" element={<Register />} /> 
+      <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
