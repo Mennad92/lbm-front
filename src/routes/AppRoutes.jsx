@@ -1,27 +1,23 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
-import Cart from '../components/cart/Cart';
 import NotFound from '../pages/NotFound';
 import Pastries from '../pages/Pastries';
 import Biscuits from '../pages/Biscuits';
 import Login from '../pages/Login';
+import Profile from '../pages/Profile';
+import Register from '../pages/Register';
 import PrivateRoute from '../components/PrivateRoute';
-import ProtectedComponent from '../components/ProtectedComponent';
-import Logout from '../pages/Logout';
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/cart" element={<Cart />} />
       <Route path="/pastries" element={<Pastries />} />
       <Route path="/biscuits" element={<Biscuits />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/logout" element={<Logout />} />
-      
-      <Route path="/protected" element={<PrivateRoute element={<ProtectedComponent />} />} />
-      
+      <Route path="/register" element={<Register />} /> 
+      <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -1,20 +1,35 @@
-import React from 'react';
-import { Card, Row, Col, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Card, Row, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { useCart } from '../../contexts/CartContext';
 
 const ProductList = ({ category, products = [] }) => {
-  const productList = products; 
+  const [quantities, setQuantities] = useState({});
+  const { addToCart } = useCart();
+
+  const handleQuantityChange = (productId, change) => {
+    setQuantities(prevQuantities => {
+      const currentQuantity = prevQuantities[productId] || 1;
+      const newQuantity = currentQuantity + change;
+      return {
+        ...prevQuantities,
+        [productId]: newQuantity > 0 ? newQuantity : 1,
+      };
+    });
+  };
 
   const handleAddToCart = (product) => {
-    console.log('Produit ajouté au panier:', product);
+    const quantity = quantities[product.id] || 1;
+    addToCart(product, quantity);
   };
 
   return (
     <div className='text-center'>
-      {productList.length > 0 ? (
+      {products.length > 0 ? (
         <Row className="mt-5">
-          {productList.map((product) => {
+          {products.map((product) => {
             const price = parseFloat(product.price);
             const formattedPrice = isNaN(price) ? 'N/A' : price.toFixed(2);
+            const quantity = quantities[product.id] || 1;
             
             return (
               <Col key={product.id} sm={12} md={6} lg={4} className="mb-4">
@@ -30,6 +45,13 @@ const ProductList = ({ category, products = [] }) => {
                     <Card.Text>
                       <strong>Price:</strong> {formattedPrice}€
                     </Card.Text>
+                    <div className="mb-3">
+                      <ButtonGroup>
+                        <Button variant="secondary" onClick={() => handleQuantityChange(product.id, -1)}>-</Button>
+                        <Button variant="light" disabled>{quantity}</Button>
+                        <Button variant="secondary" onClick={() => handleQuantityChange(product.id, 1)}>+</Button>
+                      </ButtonGroup>
+                    </div>
                     <Button variant="secondary" onClick={() => handleAddToCart(product)}>Ajouter au panier</Button>
                   </Card.Body>
                 </Card>

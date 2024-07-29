@@ -62,32 +62,9 @@
   overflow: hidden;
   align-items: center;
 }
-.center-text {
-  position: absolute;
-  font-family: 'Megrim';
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 64px; /* Ajustez la taille de la police selon vos besoins */
-  z-index: 1; /* Assurez-vous que le texte reste au-dessus des autres éléments */
-  padding: 10px; /* Optionnel : un peu de padding autour du texte */
-  border-radius: 10px; /* Optionnel : arrondir les coins du fond */
-}
 
 .card2 .card-body {
   width: 100%;
   text-align: center;
   padding-top: 50px;
-}
-
-.center-text {
-  position: absolute;
-  font-family: 'Megrim';
-  top: 50%;
-  left: 50%;
-  text-align: center; 
-  font-size: 64px; 
-  z-index: 1; 
-  padding: 10px; 
 }
