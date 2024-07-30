@@ -1,5 +1,5 @@
 function profileService() {
-  const API_URL = 'http://localhost:8000/api/profile/me/';
+  const API_URL = 'http://localhost:8000/api/profile/';
 
   const getProfile = () => {
     const token = localStorage.getItem('accessToken');
