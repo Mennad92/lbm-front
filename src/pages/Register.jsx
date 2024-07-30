@@ -15,16 +15,31 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false); 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
 
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasNumber = /\d/;
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+    
+    return password.length >= minLength && 
+           hasNumber.test(password) && 
+           hasSpecialChar.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ( !email || !password || !confirmPassword) {
+    if (!email || !password || !confirmPassword) {
       setError('Tous les champs sont obligatoires');
       return;
     }
 
     if (password !== confirmPassword) {
       setError('Les mots de passe ne correspondent pas');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError('Le mot de passe doit contenir au moins 8 caractères, un chiffre et un caractère spécial.');
       return;
     }
 
@@ -37,7 +52,7 @@ const Register = () => {
       setConfirmPassword('');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      setError('Une erreur est survenue. Veuillez réessayer plus tard.');
+      setError('Cette adresse mail est déjà utilisé');
       setSuccess('');
     }
   };
@@ -78,6 +93,10 @@ const Register = () => {
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                 </Button>
               </div>
+              {/* Display password requirements */}
+              <Form.Text className="text-muted">
+                Doit contenir au moins 8 caractères, un chiffre et un caractère spécial.
+              </Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicConfirmPassword">

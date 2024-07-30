@@ -5,6 +5,7 @@ import NotFound from '../pages/NotFound';
 import Pastries from '../pages/Pastries';
 import Biscuits from '../pages/Biscuits';
 import Login from '../pages/Login';
+import Order from '../pages/Order';
 import Profile from '../pages/Profile';
 import Register from '../pages/Register';
 import PrivateRoute from '../components/PrivateRoute';
@@ -18,6 +19,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} /> 
       <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
+      <Route path="/order" element={<Order />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

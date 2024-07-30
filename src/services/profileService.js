@@ -1,15 +1,17 @@
 function profileService() {
+  const API_URL = 'http://localhost:8000/api/profile/me/';
+
   const getProfile = () => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       return Promise.reject(new Error('Token d\'authentification manquant'));
     }
 
-    return fetch("http://localhost:8000/api/users/1", {
-      method: "GET",
+    return fetch(API_URL, {
+      method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
     }).then((res) => {
       if (!res.ok) {
@@ -25,11 +27,11 @@ function profileService() {
       return Promise.reject(new Error('Token d\'authentification manquant'));
     }
 
-    return fetch("http://localhost:8000/api/users/1", { 
-      method: "PUT",
+    return fetch(API_URL, {
+      method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(profileData),
     }).then((res) => {
@@ -42,7 +44,7 @@ function profileService() {
 
   return {
     getProfile,
-    updateProfile
+    updateProfile,
   };
 }
 
