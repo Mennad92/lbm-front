@@ -1,22 +1,46 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useActionData, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
+export async function action({ request }) {
+  try {
+    let formData = await request.formData();
+    const type = formData.get("type");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const url =
+      type === "register"
+        ? "http/localhost:8000/api/register"
+        : "http/localhost:8000/api/login";
+    const { data } = await axios.post(url, {
+      email,
+      password,
+    });
+    const { accessToken, refreshToken } = data;
+    return { tokens: { accessToken, refreshToken }, error: null };
+  } catch (error) {
+    return {
+      error: error.response.data.message || error.message,
+      tokens: null,
+    };
+  }
+}
+
 const Login = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuth();
+  const actionData = useActionData();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  
-  
+
   if (isAuthenticated) {
-    navigate('/profil');
+    navigate('/profile');
     return null;
   }
 

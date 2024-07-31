@@ -4,9 +4,11 @@ import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../hooks/useAuth';
 
 const Register = () => {
   const navigate = useNavigate();
+  const isAuthenticated = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -56,6 +58,11 @@ const Register = () => {
       setSuccess('');
     }
   };
+
+  if (isAuthenticated) {
+    navigate('/profile');
+    return null;
+  }
 
   return (
     <Container>
