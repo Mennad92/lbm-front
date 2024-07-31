@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useActionData, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useAuthStore } from '../stores/authStore';
 
 export async function action({ request }) {
   try {
@@ -30,89 +28,62 @@ export async function action({ request }) {
   }
 }
 
-const Login = () => {
-  const navigate = useNavigate();
-  const isAuthenticated = useAuth();
+export function Login() {
   const actionData = useActionData();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
+  const login = useAuthStore((state) => state.login);
+  useEffect(() => {
+    if (actionData?.tokens) {
+      login(actionData.tokens);
+      navigate("/");
+    }
+  }, [actionData]);
 
-  if (isAuthenticated) {
-    navigate('/profile');
-    return null;
+  if (isLoggedIn) {
+    navigate("/");
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError('Tous les champs sont obligatoires');
-      return;
-    }
-
-    try {
-      const response = await axios.post('http://localhost:8000/api/login/', { email, password });
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
-      setError('');
-      navigate('/');
-    } catch (err) {
-      console.error(err);
-      if (err.response && err.response.status === 401) {
-        setError('email ou mot de passe incorrect');
-      } else {
-        setError('Une erreur est survenue. Veuillez réessayer plus tard.');
-      }
-    }
-  };
-
   return (
-    <Container>
-      <Row className="m-5 bg-light rounded border border-1 justify-content-md-center">
-        <Col md={6} lg={4} className="mx-auto">
-          <h2 className="text-center m-5">Connexion</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>email</Form.Label>
-              <Form.Control
-                type="mail"
-                placeholder="Entrez votre email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
+    <div>
+      <Form method="post">
+        <h1>Login</h1>
+        {actionData?.error && <div className="alert">{actionData?.error}</div>}
+        <fieldset>
+          <label htmlFor="login">
+            <input
+              type="radio"
+              id="login"
+              name="type"
+              value="login"
+              defaultChecked
+            />
+            Login
+          </label>
+          <label htmlFor="register">
+            <input type="radio" id="register" name="type" value="register" />
+            Register
+          </label>
+        </fieldset>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          aria-label="Email"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          aria-label="Password"
+          required
+        />
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Mot de passe</Form.Label>
-              <div className="d-flex align-items-center">
-                <Form.Control
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Entrez votre mot de passe"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                  variant="link"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{ marginLeft: '10px', padding: '0', background: 'none', border: 'none' }}
-                >
-                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                </Button>
-              </div>
-            </Form.Group>
-
-            <div className='d-flex justify-content-center'>
-              <Button variant="outline-success" type="submit" className="px-5 my-3">
-                Connexion
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+        <button type="submit" className="contrast">
+          Login
+        </button>
+      </Form>
+    </div>
   );
-};
-
-export default Login;
+}
