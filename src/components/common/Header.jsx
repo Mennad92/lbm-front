@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../assets/styles/main.css';
 import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,26 +7,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import panierIcon from '../../assets/images/panier.png';
 import connectIcon from '../../assets/images/connex.png';
 import Cart from '../cart/Cart';
+import { useAuthStore } from '../../stores/authStore';
 
 const Header = () => {
   const [showCart, setShowCart] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
+  const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
 
   const handleOpenCart = () => setShowCart(true);
   const handleCloseCart = () => setShowCart(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    setIsAuthenticated(false);
-    navigate('/login');
+    logout();
+    navigate('/');
   };
 
   return (
@@ -49,9 +43,9 @@ const Header = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu align="end">
-                    {isAuthenticated ? (
+                    {isLoggedIn ? (
                       <>
-                        <Dropdown.Item as={Link} to="/profile">Profile</Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/profile">Profil</Dropdown.Item>
                         <Dropdown.Item onClick={handleLogout}>Déconnexion</Dropdown.Item>
                       </>
                     ) : (

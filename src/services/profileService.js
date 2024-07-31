@@ -4,7 +4,8 @@ function profileService() {
 
   const getProfile = () => {
 
-    return client.get('profile').then((res) => {
+    return client.get('profile',
+      { authorization: true }).then((res) => {
       if (!res.ok) {
         return res.json().then((err) => Promise.reject(err));
       }

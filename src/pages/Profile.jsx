@@ -12,6 +12,7 @@ const Profile = () => {
         const data = await profileService.getProfile();
         setProfile(data);
       } catch (err) {
+        console.log(err);
         setError('Erreur lors de la récupération du profil');
       }
     };

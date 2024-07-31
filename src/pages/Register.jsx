@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import useAuth from '../hooks/useAuth';
+import { useAuthStore } from '../stores/authStore';
 
 const Register = () => {
   const navigate = useNavigate();
-  const isAuthenticated = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -16,6 +16,12 @@ const Register = () => {
   const [success, setSuccess] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/profile");
+    }
+  }, [isLoggedIn]);
 
   const validatePassword = (password) => {
     const minLength = 8;
@@ -58,11 +64,6 @@ const Register = () => {
       setSuccess('');
     }
   };
-
-  if (isAuthenticated) {
-    navigate('/profile');
-    return null;
-  }
 
   return (
     <Container>

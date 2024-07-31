@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
-import { Form } from 'react-bootstrap';
+import { client } from "../services/axiosClient";
+import { Form } from 'react-router-dom';
 import { useActionData, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 
@@ -12,13 +12,14 @@ export async function action({ request }) {
     const password = formData.get("password");
     const url =
       type === "register"
-        ? "http/localhost:8000/api/register"
-        : "http/localhost:8000/api/login";
-    const { data } = await axios.post(url, {
+        ? "register/"
+        : "login/";
+    const { data } = await client.post(url, {
       email,
       password,
     });
-    const { accessToken, refreshToken } = data;
+    const accessToken = data.access;
+    const refreshToken = data.refresh;
     return { tokens: { accessToken, refreshToken }, error: null };
   } catch (error) {
     return {
@@ -40,9 +41,11 @@ export function Login() {
     }
   }, [actionData]);
 
-  if (isLoggedIn) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/profile");
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>
