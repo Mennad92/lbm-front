@@ -56,11 +56,11 @@ export function createAxiosClient({
         logout();
         return Promise.reject(error);
       };
-
+      console.log(error.response?.data.messages.message);
       if (
         refreshToken &&
         error.response?.status === 401 &&
-        error.response.data.message === "TokenExpiredError" &&
+        error.response?.data?.messages[0].message === "Token is invalid or expired" &&
         originalRequest?.url !== refreshTokenUrl &&
         originalRequest?._retry !== true
       ) {
@@ -80,12 +80,12 @@ export function createAxiosClient({
         originalRequest._retry = true;
         return client
           .post(refreshTokenUrl, {
-            refreshToken: refreshToken,
+            refresh: refreshToken,
           })
           .then((res) => {
             const tokens = {
-              accessToken: res.data?.accessToken,
-              refreshToken: res.data?.refreshToken,
+              accessToken: res.data?.access,
+              refreshToken: res.data?.refresh,
             };
             setRefreshedTokens(tokens);
             processQueue(null);
@@ -99,7 +99,7 @@ export function createAxiosClient({
 
       if (
         error.response?.status === 401 &&
-        error.response?.data?.message === "TokenExpiredError"
+        error.response?.data?.messages[0].message === "Token is invalid or expired"
       ) {
         return handleError(error);
       }

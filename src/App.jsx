@@ -13,7 +13,6 @@ import Profile from './pages/Profile';
 import { 
   action as registerAction,
   Register } from './pages/Register';
-import PrivateRoute from './components/PrivateRoute';
 import { Root } from './pages/Root';
 
 const router = createBrowserRouter([
@@ -45,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <PrivateRoute element={<Profile />} />,
+        element: <Profile />,
       },
       {
         path: "/order",
