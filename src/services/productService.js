@@ -1,14 +1,17 @@
+import { client } from "./axiosClient";
+
 function productService() {
+
   const getProducts = () => {
-    return fetch("http://localhost:8000/api/products", {
-      method: "GET"
-    }).then((res) => res.json());
+    return client.get('products/',
+      { authorization: false }
+    );
   };
 
   const getProductsByCategory = (categoryId) => {
-    return fetch(`http://localhost:8000/api/products?category=${categoryId}`, {
-      method: "GET"
-    }).then((res) => res.json());
+    return client.get('products?category=${categoryId}/',
+      { authorization: false }
+    );
   };
 
   return {

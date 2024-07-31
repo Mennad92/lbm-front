@@ -56,7 +56,6 @@ export function createAxiosClient({
         logout();
         return Promise.reject(error);
       };
-      console.log(error.response?.data.messages.message);
       if (
         refreshToken &&
         error.response?.status === 401 &&

@@ -1,17 +1,6 @@
 import * as React from 'react';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Stepper from '@mui/material/Stepper';
-import Typography from '@mui/material/Typography';
-
+import { Box, Button, Card, CardContent, CssBaseline, Grid, Stack, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
@@ -26,26 +15,46 @@ import profileService from '../services/profileService';
 
 export default function Order() {
     const [activeStep, setActiveStep] = React.useState(0);
-    const [profile, setProfile] = useState(null);
     const steps = ['Adresse de livraison', 'Détails de paiement', 'Résumé de commande'];
-    const [isFetched, setIsFetched] = useState(false);
+    const [profileForm, setProfileForm] = useState({
+      firstName: '',
+      lastName: '',
+      address: '',
+      phone: '',
+      city: '',
+      postal: ''
+    });
+  
+    const handleChange = (event) => {
+      setProfileForm({
+        ...profileForm,
+        [event.target.name]: event.target.value
+      })
+    };
 
     useEffect(() => {
-        if (!isFetched) {
-            profileService.getProfile().then((json) => {
-                setProfile(json);
-                setIsFetched(true);
-            })
-                .catch((err) => {
-                    console.log(err);
-                });
+      const fetchProfile = async () => {
+        try {
+          const data = await profileService.getProfile();
+          setProfileForm({
+            firstName: data.first_name || '',
+            lastName: data.last_name || '',
+            address: data.address || '',
+            phone: data.phone || '',
+            city: data.city || '',
+            postal: data.postal || ''
+          });
+        } catch (err) {
         }
-    }, [isFetched]);
+      };
+  
+      fetchProfile();
+    }, []);
 
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return (profile ? <AddressForm profileData={profile} /> : 'Chargement en cours');
+                return (profileForm ? <AddressForm  profileData={profileForm} handleChange={handleChange} /> : 'Chargement en cours');
             case 1:
                 return <PaymentForm />;
             case 2:

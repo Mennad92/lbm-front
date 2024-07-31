@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { client } from "../services/axiosClient";
+import profileService from '../services/profileService';
 import { Form } from 'react-router-dom';
 import { useActionData, useNavigate }  from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
@@ -18,7 +18,7 @@ export async function action({ request }) {
     let formData = await request.formData();
     const email = formData.get("email");
     const password = formData.get("password");
-    await client.post("register/", {
+    await profileService.register({
       email,
       password,
     });

@@ -9,6 +9,21 @@ const Profile = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
+  const [profileForm, setProfileForm] = useState({
+    firstName: '',
+    lastName: '',
+    address: '',
+    phone: '',
+    city: '',
+    postal: ''
+  });
+
+  const handleChange = (event) => {
+    setProfileForm({
+      ...profileForm,
+      [event.target.name]: event.target.value
+    });
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -21,8 +36,15 @@ const Profile = () => {
       try {
         const data = await profileService.getProfile();
         setProfile(data);
+        setProfileForm({
+          firstName: data.first_name || '',
+          lastName: data.last_name || '',
+          address: data.address || '',
+          phone: data.phone || '',
+          city: data.city || '',
+          postal: data.postal || ''
+        });
       } catch (err) {
-        console.log(err);
         setError('Erreur lors de la récupération du profil');
       }
     };
@@ -34,10 +56,10 @@ const Profile = () => {
 
   return (
     <>
-      {profile ? (
+      {profileForm ? (
         <div>
           <h2>Profil</h2>
-          <AddressForm profileData={profile} />
+          <AddressForm profileData={profileForm} handleChange={handleChange} />
            
         </div>
       ) : (

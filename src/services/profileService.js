@@ -2,37 +2,47 @@ import { client } from "./axiosClient";
 
 function profileService() {
 
-  const getProfile = () => {
+  const register = ({ email, password }) => {
+    return client.post(
+      "register",
+      { email, password },
+      { authorization: false }
+    );
+  }
+  
+  const login = ({ email, password }) => {
+      return client.post(
+        "login",
+        { email, password },
+        { authorization: false }
+      );
+    }
 
+  const getProfile = () => {
     return client.get('profile',
       { authorization: true }
     );
   };
 
-  // const updateProfile = (profileData) => {
-  //   const token = localStorage.getItem('accessToken');
-  //   if (!token) {
-  //     return Promise.reject(new Error('Token d\'authentification manquant'));
-  //   }
-
-  //   return fetch(API_URL, {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Authorization': `Bearer ${token}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(profileData),
-  //   }).then((res) => {
-  //     if (!res.ok) {
-  //       return res.json().then((err) => Promise.reject(err));
-  //     }
-  //     return res.json();
-  //   });
-  // };
+  const updateProfile = (profileData) => {
+    return client.put('profile/',
+      {
+        first_name: profileData.firstName,
+        last_name: profileData.lastName,
+        address: profileData.address,
+        phone: profileData.phone,
+        city: profileData.city,
+        postal: profileData.postal
+      },
+      { authorization: true }
+    );
+  };
 
   return {
+    login,
+    register,
     getProfile,
-    // updateProfile,
+    updateProfile,
   };
 }
 

@@ -3,29 +3,13 @@ import FormLabel from '@mui/material/FormLabel';
 import Grid from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { styled } from '@mui/system';
-import { useState } from 'react';
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
 }));
 
-export default function AddressForm({ profileData }) {
-  const [formData, setFormData] = useState({
-    firstName: profileData.first_name,
-    lastName: profileData.last_name,
-    address: profileData.address,
-    phone: profileData.phone,
-    city: profileData.city,
-    postal: profileData.postal
-  })
-
-  const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value
-    })
-  };
+export default function AddressForm({ profileForm, handleChange }) {
 
   return (
     <Grid container spacing={3}>
@@ -39,7 +23,7 @@ export default function AddressForm({ profileData }) {
           type="name"
           placeholder="Prénom"
           autoComplete="first name"
-          onChange={handleChange} value={formData.firstName}
+          onChange={handleChange} value={profileForm?.firstName}
           required
         />
       </FormGrid>
@@ -53,7 +37,7 @@ export default function AddressForm({ profileData }) {
           type="last-name"
           placeholder="Nom"
           autoComplete="last name"
-          onChange={handleChange} value={formData.lastName}
+          onChange={handleChange} value={profileForm?.lastName}
           required
         />
       </FormGrid>
@@ -67,7 +51,7 @@ export default function AddressForm({ profileData }) {
           type="address1"
           placeholder="Numéro et nom de rue"
           autoComplete="shipping address-line1"
-          onChange={handleChange} value={formData.address}
+          onChange={handleChange} value={profileForm?.address}
           required
         />
       </FormGrid>
@@ -81,7 +65,7 @@ export default function AddressForm({ profileData }) {
           type="city"
           placeholder="Ville"
           autoComplete="City"
-          onChange={handleChange} value={formData.city}
+          onChange={handleChange} value={profileForm?.city}
           required
         />
       </FormGrid>
@@ -95,7 +79,7 @@ export default function AddressForm({ profileData }) {
           type="zip"
           placeholder="Code postal"
           autoComplete="shipping postal-code"
-          onChange={handleChange} value={formData.postal}
+          onChange={handleChange} value={profileForm?.postal}
           required
         />
       </FormGrid>
@@ -109,7 +93,7 @@ export default function AddressForm({ profileData }) {
           type="phone"
           placeholder="Numéro de téléphone portable"
           autoComplete="shipping phone"
-          onChange={handleChange} value={formData.phone}
+          onChange={handleChange} value={profileForm?.phone}
           required
         />
       </FormGrid>
