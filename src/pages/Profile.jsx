@@ -23,7 +23,7 @@ const Profile = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className='m-5'>
+    <>
       {profile ? (
         <div>
           <h2>Profil</h2>
@@ -33,7 +33,7 @@ const Profile = () => {
       ) : (
         <div>Chargement...</div>
       )}
-    </div>
+    </>
   );
 };
 

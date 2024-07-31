@@ -37,7 +37,7 @@ export default function AddressForm({ profileData }) {
           id="first-name"
           name="firstName"
           type="name"
-          placeholder="John"
+          placeholder="Prénom"
           autoComplete="first name"
           onChange={handleChange} value={formData.firstName}
           required
@@ -51,7 +51,7 @@ export default function AddressForm({ profileData }) {
           id="last-name"
           name="lastName"
           type="last-name"
-          placeholder="Snow"
+          placeholder="Nom"
           autoComplete="last name"
           onChange={handleChange} value={formData.lastName}
           required
@@ -65,7 +65,7 @@ export default function AddressForm({ profileData }) {
           id="address1"
           name="address"
           type="address1"
-          placeholder="Street name and number"
+          placeholder="Numéro et nom de rue"
           autoComplete="shipping address-line1"
           onChange={handleChange} value={formData.address}
           required
@@ -79,7 +79,7 @@ export default function AddressForm({ profileData }) {
           id="city"
           name="city"
           type="city"
-          placeholder="New York"
+          placeholder="Ville"
           autoComplete="City"
           onChange={handleChange} value={formData.city}
           required
@@ -93,7 +93,7 @@ export default function AddressForm({ profileData }) {
           id="zip"
           name="postal"
           type="zip"
-          placeholder="12345"
+          placeholder="Code postal"
           autoComplete="shipping postal-code"
           onChange={handleChange} value={formData.postal}
           required
@@ -107,7 +107,7 @@ export default function AddressForm({ profileData }) {
           id="phone"
           name="phone"
           type="phone"
-          placeholder="0612345678"
+          placeholder="Numéro de téléphone portable"
           autoComplete="shipping phone"
           onChange={handleChange} value={formData.phone}
           required

@@ -1,20 +1,23 @@
 import React, { useEffect } from 'react';
 import { client } from "../services/axiosClient";
 import { Form } from 'react-router-dom';
-import { useActionData, useNavigate } from 'react-router-dom';
+import { useActionData, useNavigate, useLocation  } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { styled } from '@mui/system';
+import { Snackbar, Grid, FormLabel, OutlinedInput, Button, IconButton  } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
+const FormGrid = styled(Grid)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+}));
 
 export async function action({ request }) {
   try {
     let formData = await request.formData();
-    const type = formData.get("type");
     const email = formData.get("email");
     const password = formData.get("password");
-    const url =
-      type === "register"
-        ? "register/"
-        : "login/";
-    const { data } = await client.post(url, {
+    const { data } = await client.post("login/", {
       email,
       password,
     });
@@ -30,10 +33,23 @@ export async function action({ request }) {
 }
 
 export function Login() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const justRegistered = queryParams.get('just_registered');
+  const [open, setOpen] = React.useState(justRegistered);
   const actionData = useActionData();
   const navigate = useNavigate();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
   const login = useAuthStore((state) => state.login);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   useEffect(() => {
     if (actionData?.tokens) {
       login(actionData.tokens);
@@ -47,46 +63,69 @@ export function Login() {
     }
   }, [isLoggedIn]);
 
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
     <div>
       <Form method="post">
-        <h1>Login</h1>
+        <h1>Connexion</h1>
         {actionData?.error && <div className="alert">{actionData?.error}</div>}
-        <fieldset>
-          <label htmlFor="login">
-            <input
-              type="radio"
-              id="login"
-              name="type"
-              value="login"
-              defaultChecked
+        <Grid container spacing={3}>
+          <FormGrid item xs={12} md={12}>
+            <FormLabel htmlFor="mail" required>
+              Email
+            </FormLabel>
+            <OutlinedInput
+              name="email"
+              type="text"
+              placeholder="Email"
+              aria-label="Email"
+              required
             />
-            Login
-          </label>
-          <label htmlFor="register">
-            <input type="radio" id="register" name="type" value="register" />
-            Register
-          </label>
-        </fieldset>
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          aria-label="Email"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          aria-label="Password"
-          required
-        />
-
-        <button type="submit" className="contrast">
-          Login
-        </button>
+          </FormGrid>
+          <FormGrid item xs={12} md={12}>
+            <FormLabel htmlFor="password" required>
+              Mot de passe
+            </FormLabel>
+            <OutlinedInput
+              name="password"
+              type="password"
+              placeholder="Mot de passe"
+              aria-label="Mot de passe"
+              required
+            />
+          </FormGrid>
+          <FormGrid item xs={12} md={12}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Se connecter
+            </Button>
+          </FormGrid>
+        </Grid>
       </Form>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{horizontal:'center', vertical:'bottom'}}
+        message="Bienvenue ! Votre inscription a été réussie. Vous pouvez maintenant vous connecter."
+        action={action}
+      />
     </div>
   );
 }

@@ -10,7 +10,9 @@ import {
 } from './pages/Login';
 import Order from './pages/Order';
 import Profile from './pages/Profile';
-import Register from './pages/Register';
+import { 
+  action as registerAction,
+  Register } from './pages/Register';
 import PrivateRoute from './components/PrivateRoute';
 import { Root } from './pages/Root';
 
@@ -39,6 +41,7 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+        action: registerAction,
       },
       {
         path: "/profile",

@@ -5,12 +5,8 @@ function profileService() {
   const getProfile = () => {
 
     return client.get('profile',
-      { authorization: true }).then((res) => {
-      if (!res.ok) {
-        return res.json().then((err) => Promise.reject(err));
-      }
-      return res.json();
-    });
+      { authorization: true }
+    );
   };
 
   // const updateProfile = (profileData) => {
