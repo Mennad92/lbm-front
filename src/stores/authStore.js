@@ -10,6 +10,7 @@ function removeTokensFromLocalStorage() {
   localStorage.removeItem("refreshToken");
 }
 
+
 export const useAuthStore = create((set, get) => ({
   accessToken: localStorage.getItem("accessToken") || null,
   refreshToken: localStorage.getItem("refreshToken") || null,

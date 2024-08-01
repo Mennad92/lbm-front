@@ -4,6 +4,7 @@ import AddressForm from '../components/order/AddressForm';
 import { useAuthStore } from '../stores/authStore';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
+import { jwtDecode } from "jwt-decode";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -19,6 +20,20 @@ const Profile = () => {
     postal: ''
   });
 
+  
+  function getUserId() {
+    const accessToken = useAuthStore.getState().accessToken;
+    if (accessToken) {
+      try {
+        const decodedToken = jwtDecode(accessToken);
+        return decodedToken.user_id;
+      } catch (error) {
+        console.error("Erreur lors du décodage du token:", error);
+        return null;
+      }
+    }
+  }
+
   const handleChange = (event) => {
     setProfileForm({
       ...profileForm,
@@ -27,8 +42,8 @@ const Profile = () => {
     setIsUpdated(false);
   };
 
-  async function handleSubmit() {
-    const data = await profileService.updateProfile(profileForm);
+  function handleSubmit() {
+    const data = profileService.updateProfile(getUserId(), profileForm);
   };
 
 

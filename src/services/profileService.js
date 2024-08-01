@@ -24,8 +24,8 @@ function profileService() {
     );
   };
 
-  const updateProfile = (profileData) => {
-    return client.put('profile/',
+  const updateProfile = (userId, profileData) => {
+    return client.put('profile/' + userId + "/",
       {
         first_name: profileData.firstName,
         last_name: profileData.lastName,
