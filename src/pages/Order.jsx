@@ -12,6 +12,8 @@ import Review from '../components/order/Review';
 import { useState, useEffect } from 'react';
 import profileService from '../services/profileService';
 import { v4 as uuidv4 } from 'uuid';
+import { jwtDecode } from "jwt-decode";
+import { useAuthStore } from '../stores/authStore';
 
 export default function Order() {
     const [activeStep, setActiveStep] = React.useState(0);
@@ -26,6 +28,19 @@ export default function Order() {
       postal: ''
     });
     const [uuid, setUuid] = useState('');
+
+    function getUserId() {
+      const accessToken = useAuthStore.getState().accessToken;
+      if (accessToken) {
+        try {
+          const decodedToken = jwtDecode(accessToken);
+          return decodedToken.user_id;
+        } catch (error) {
+          console.error("Erreur lors du décodage du token:", error);
+          return null;
+        }
+      }
+    }
   
     const handleChange = (event) => {
       setProfileForm({
@@ -75,8 +90,18 @@ export default function Order() {
         return !(profileForm.firstName && profileForm.lastName && profileForm.address && profileForm.phone && profileForm.city && profileForm.postal);
     };
 
-    const handleNext = () => {
-        setActiveStep(activeStep + 1);
+    const handleNext = async () => {
+        if(activeStep === steps.length - 1) {
+            try {
+              await profileService.updateProfile(getUserId(), profileForm);
+            } catch (err) {
+                console.error(err);
+            }
+
+        }        
+        else {
+            setActiveStep(activeStep + 1);
+        }    
     };
 
     const handleBack = () => {
