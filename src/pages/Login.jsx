@@ -1,94 +1,131 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect } from 'react';
+import profileService from '../services/profileService';
+import { Form } from 'react-router-dom';
+import { useActionData, useNavigate, useLocation  } from 'react-router-dom';
+import { useAuthStore } from '../stores/authStore';
+import { styled } from '@mui/system';
+import { Snackbar, Grid, FormLabel, OutlinedInput, Button, IconButton  } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
-const Login = () => {
-  const navigate = useNavigate();
-  const isAuthenticated = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  
-  
-  if (isAuthenticated) {
-    navigate('/profil');
-    return null;
+const FormGrid = styled(Grid)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+export async function action({ request }) {
+  try {
+    let formData = await request.formData();
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const { data } = await profileService.login({
+      email,
+      password,
+    });
+    const accessToken = data.access;
+    const refreshToken = data.refresh;
+    return { tokens: { accessToken, refreshToken }, error: null };
+  } catch (error) {
+    return {
+      error: error.response.data.message || error.message,
+      tokens: null,
+    };
   }
+}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError('Tous les champs sont obligatoires');
+export function Login() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const justRegistered = queryParams.get('just_registered');
+  const [open, setOpen] = React.useState(justRegistered);
+  const actionData = useActionData();
+  const navigate = useNavigate();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
+  const login = useAuthStore((state) => state.login);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
       return;
     }
 
-    try {
-      const response = await axios.post('http://localhost:8000/api/login/', { email, password });
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
-      setError('');
-      navigate('/');
-    } catch (err) {
-      console.error(err);
-      if (err.response && err.response.status === 401) {
-        setError('email ou mot de passe incorrect');
-      } else {
-        setError('Une erreur est survenue. Veuillez réessayer plus tard.');
-      }
-    }
+    setOpen(false);
   };
 
-  return (
-    <Container>
-      <Row className="m-5 bg-light rounded border border-1 justify-content-md-center">
-        <Col md={6} lg={4} className="mx-auto">
-          <h2 className="text-center m-5">Connexion</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>email</Form.Label>
-              <Form.Control
-                type="mail"
-                placeholder="Entrez votre email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
+  useEffect(() => {
+    if (actionData?.tokens) {
+      login(actionData.tokens);
+      navigate("/");
+    }
+  }, [actionData]);
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Mot de passe</Form.Label>
-              <div className="d-flex align-items-center">
-                <Form.Control
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Entrez votre mot de passe"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                  variant="link"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{ marginLeft: '10px', padding: '0', background: 'none', border: 'none' }}
-                >
-                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                </Button>
-              </div>
-            </Form.Group>
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/profile");
+    }
+  }, [isLoggedIn]);
 
-            <div className='d-flex justify-content-center'>
-              <Button variant="outline-success" type="submit" className="px-5 my-3">
-                Connexion
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
   );
-};
 
-export default Login;
+  return (
+    <div>
+      <Form method="post">
+        <h1>Connexion</h1>
+        {actionData?.error && <div className="alert">{actionData?.error}</div>}
+        <Grid container spacing={3}>
+          <FormGrid item xs={12} md={12}>
+            <FormLabel htmlFor="mail" required>
+              Email
+            </FormLabel>
+            <OutlinedInput
+              name="email"
+              type="text"
+              placeholder="Email"
+              aria-label="Email"
+              required
+            />
+          </FormGrid>
+          <FormGrid item xs={12} md={12}>
+            <FormLabel htmlFor="password" required>
+              Mot de passe
+            </FormLabel>
+            <OutlinedInput
+              name="password"
+              type="password"
+              placeholder="Mot de passe"
+              aria-label="Mot de passe"
+              required
+            />
+          </FormGrid>
+          <FormGrid item xs={12} md={12}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Se connecter
+            </Button>
+          </FormGrid>
+        </Grid>
+      </Form>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{horizontal:'center', vertical:'bottom'}}
+        message="Bienvenue ! Votre inscription a été réussie. Vous pouvez maintenant vous connecter."
+        action={action}
+      />
+    </div>
+  );
+}

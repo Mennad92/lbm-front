@@ -1,48 +1,48 @@
+import { client } from "./axiosClient";
+
 function profileService() {
-  const getProfile = () => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return Promise.reject(new Error('Token d\'authentification manquant'));
+
+  const register = ({ email, password }) => {
+    return client.post(
+      "register/",
+      { email, password },
+      { authorization: false }
+    );
+  }
+  
+  const login = ({ email, password }) => {
+      return client.post(
+        "login/",
+        { email, password },
+        { authorization: false }
+      );
     }
 
-    return fetch("http://localhost:8000/api/users/1", {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-    }).then((res) => {
-      if (!res.ok) {
-        return res.json().then((err) => Promise.reject(err));
-      }
-      return res.json();
-    });
+  const getProfile = () => {
+    return client.get('profile/',
+      { authorization: true }
+    );
   };
 
-  const updateProfile = (profileData) => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return Promise.reject(new Error('Token d\'authentification manquant'));
-    }
-
-    return fetch("http://localhost:8000/api/users/1", { 
-      method: "PUT",
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+  const updateProfile = (userId, profileData) => {
+    return client.put('profile/' + userId + "/",
+      {
+        first_name: profileData.firstName,
+        last_name: profileData.lastName,
+        address: profileData.address,
+        phone: profileData.phone,
+        city: profileData.city,
+        postal: profileData.postal
       },
-      body: JSON.stringify(profileData),
-    }).then((res) => {
-      if (!res.ok) {
-        return res.json().then((err) => Promise.reject(err));
-      }
-      return res.json();
-    });
+      { authorization: true }
+    );
   };
 
   return {
+    login,
+    register,
     getProfile,
-    updateProfile
+    updateProfile,
   };
 }
 

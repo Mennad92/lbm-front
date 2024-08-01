@@ -1,68 +1,105 @@
 import React, { useState, useEffect } from 'react';
 import profileService from '../services/profileService';
+import AddressForm from '../components/order/AddressForm';
+import { useAuthStore } from '../stores/authStore';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { jwtDecode } from "jwt-decode";
 
 const Profile = () => {
-  const [profile, setProfile] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [updatedProfile, setUpdatedProfile] = useState({});
+  const navigate = useNavigate();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
+  const [isUpdated, setIsUpdated] = useState(true);
+  const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
+  const [profileForm, setProfileForm] = useState({});
 
-  useEffect(() => {
-    const fetchProfile = async () => {
+  
+  function getUserId() {
+    const accessToken = useAuthStore.getState().accessToken;
+    if (accessToken) {
       try {
-        const data = await profileService.getProfile();
-        setProfile(data);
-      } catch (err) {
-        setError('Erreur lors de la récupération du profil');
+        const decodedToken = jwtDecode(accessToken);
+        return decodedToken.user_id;
+      } catch (error) {
+        console.error("Erreur lors du décodage du token:", error);
+        return null;
       }
-    };
+    }
+  }
 
-    fetchProfile();
-  }, []);
+  const handleChange = (event) => {
+    setProfileForm({
+      ...profileForm,
+      [event.target.name]: event.target.value
+    });
+    setIsUpdated(false);
+  };
 
-  const handleUpdate = async () => {
+
+  const handleSubmit = async () => {
     try {
-      await profileService.updateProfile(updatedProfile);
-      setProfile({ ...profile, ...updatedProfile });
-      setIsEditing(false);
+      const data = await profileService.updateProfile(getUserId(), profileForm);
+      setIsUpdated(true);
     } catch (err) {
       setError('Erreur lors de la mise à jour du profil');
     }
   };
 
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if(!isFetched){
+      const fetchProfile = async () => {
+        try {
+          const response = await profileService.getProfile();
+          setProfileForm({
+            firstName: response.data.first_name,
+            lastName: response.data.last_name,
+            address: response.data.address,
+            phone: response.data.phone,
+            city: response.data.city,
+            postal: response.data.postal
+          });
+        } catch (err) {
+          setError('Erreur lors de la récupération du profil');
+        }
+      };
+  
+      fetchProfile();
+      setIsFetched(true);
+    }
+  }, [isFetched]);
+
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      {profile ? (
+    <>
+      {isFetched ? (
         <div>
           <h2>Profil</h2>
-          {isEditing ? (
-            <div>
-              <input
-                type="text"
-                value={updatedProfile.name || profile.name}
-                onChange={(e) => setUpdatedProfile({ ...updatedProfile, name: e.target.value })}
-              />
-              <input
-                type="email"
-                value={updatedProfile.email || profile.email}
-                onChange={(e) => setUpdatedProfile({ ...updatedProfile, email: e.target.value })}
-              />
-              <button onClick={handleUpdate}>Enregistrer</button>
-            </div>
-          ) : (
-            <div>
-              <p>Nom: {profile.name}</p>
-              <p>Email: {profile.email}</p>
-              <button onClick={() => setIsEditing(true)}>Modifier</button>
-            </div>
-          )}
+          <AddressForm profileData={profileForm} handleChange={handleChange} />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={isUpdated}
+            onClick={handleSubmit}
+          >
+            Mettre à jour le profil
+          </Button>
+           
         </div>
       ) : (
         <div>Chargement...</div>
       )}
-    </div>
+    </>
   );
 };
 

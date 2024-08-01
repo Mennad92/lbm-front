@@ -1,114 +1,170 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Form, Button, Container, Alert, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import profileService from '../services/profileService';
+import { Form } from 'react-router-dom';
+import { useActionData, useNavigate }  from 'react-router-dom';
+import { useAuthStore } from '../stores/authStore';
+import { styled } from '@mui/system';
+import { Grid, FormLabel, OutlinedInput, Button, InputAdornment, IconButton } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-const Register = () => {
+const FormGrid = styled(Grid)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+export async function action({ request }) {
+  try {
+    let formData = await request.formData();
+    const email = formData.get("email");
+    const password = formData.get("password");
+    await profileService.register({
+      email,
+      password,
+    });
+    return { isRegistered: true, error: null };
+  } catch (error) {
+    return {
+      error: error.response.data.message || error.message,
+    };
+  }
+}
+
+export function Register() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const actionData = useActionData();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  })
   const [showPassword, setShowPassword] = useState(false); 
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if ( !email || !password || !confirmPassword) {
-      setError('Tous les champs sont obligatoires');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas');
-      return;
-    }
-
-    try {
-      await axios.post('http://localhost:8000/api/register/', { email, password });
-      setSuccess('Inscription réussie. Vous pouvez maintenant vous connecter.');
-      setError('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setTimeout(() => navigate('/login'), 2000);
-    } catch (err) {
-      setError('Une erreur est survenue. Veuillez réessayer plus tard.');
-      setSuccess('');
-    }
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value
+    })
   };
 
+  useEffect(() => {
+    if (actionData?.isRegistered) {
+      navigate("/login?just_registered=true");
+    }
+  }, [actionData]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/profile");
+    }
+  }, [isLoggedIn]);
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasNumber = /\d/;
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+    
+    return password.length >= minLength && 
+           hasNumber.test(password) && 
+           hasSpecialChar.test(password);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateForm = () => {
+    if(validatePassword(formData.password) && validateEmail(formData.email) && formData.password == formData.passwordConfirm)
+      return false;
+    return true;
+  }
+
   return (
-    <Container>
-      <Row className="m-5 bg-light rounded border border-1 justify-content-md-center">
-        <Col md={6} lg={4} className="mx-auto">
-          <h2 className="text-center m-5">S'inscrire</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          {success && <Alert variant="success">{success}</Alert>}
-          <Form onSubmit={handleSubmit}>
-
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Entrez votre email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Mot de passe</Form.Label>
-              <div className="d-flex align-items-center">
-                <Form.Control
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="*******"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                  variant="link"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{ marginLeft: '10px', padding: '0', background: 'none', border: 'none' }}
-                >
-                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                </Button>
-              </div>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-              <Form.Label>Confirmer le mot de passe</Form.Label>
-              <div className="d-flex align-items-center">
-                <Form.Control
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="*******"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <Button
-                  variant="link"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  style={{ marginLeft: '10px', padding: '0', background: 'none', border: 'none' }}
-                >
-                  <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
-                </Button>
-              </div>
-            </Form.Group>
-
-            <div className='d-flex justify-content-center'>
-              <Button variant="outline-success" type="submit" className="px-5 my-3">
-                S'inscrire
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <Form method="post">
+        <h1>Inscription</h1>
+        {actionData?.error && <div className="alert">{actionData?.error}</div>}
+        <Grid container spacing={3}>
+          <FormGrid item xs={12} md={8}>
+            <FormLabel htmlFor="mail" required>
+              Email
+            </FormLabel>
+            <OutlinedInput
+              name="email"
+              type="text"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              aria-label="Email"
+              required
+            />
+          </FormGrid>
+          <FormGrid item xs={12} md={8}>
+            <FormLabel htmlFor="pass" required>
+              Mot de passe
+            </FormLabel>
+            <OutlinedInput
+              name="password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Mot de passe"
+              aria-label="Mot de passe"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                    style={{ padding: '0', background: 'none', margin: '10px', }}
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormGrid>
+          <FormGrid item xs={12} md={8}>
+            <FormLabel htmlFor="passconfirm" required>
+              Confirmer le mot de passe
+            </FormLabel>
+            <OutlinedInput
+              name="passwordConfirm"
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder="Confirmation du mot de passe"
+              aria-label="Confirmation du mot de passe"
+              value={formData.passwordConfirm}
+              onChange={handleChange}
+              required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    edge="end"
+                    style={{ padding: '0', background: 'none', margin: '10px', }}
+                  >
+                    <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormGrid>
+          <FormGrid item xs={12} md={12}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={validateForm()}
+            >
+              S'inscrire
+            </Button>
+          </FormGrid>
+        </Grid>
+      </Form>
+    </div>
   );
 };
-
-export default Register;
