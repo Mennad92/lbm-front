@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# Les biscuits de maman - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bienvenue dans le projet **Les biscuits de maman** - Frontend ! Il s'agit de la partie frontale du site web de vente de biscuits artisanaux, développée avec React. Ce projet est conçu pour offrir une expérience utilisateur fluide et moderne, permettant de parcourir les différents types de biscuits, de gérer un panier d'achats, et de passer commande.
 
-## Available Scripts
+## Prérequis
 
-In the project directory, you can run:
+Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
 
-### `npm start`
+- **Node.js 14+** : Vous pouvez le télécharger depuis [nodejs.org](https://nodejs.org/).
+- **npm** : L'outil de gestion de paquets de Node.js, installé avec Node.js.
+- **Git** : Pour cloner le dépôt. Téléchargez-le depuis [git-scm.com](https://git-scm.com/).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. Cloner le dépôt
 
-### `npm test`
+Commencez par cloner ce dépôt Git sur votre machine locale :
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+git clone https://github.com/Mennad92/lbm-front.git
+cd lbm-front
+```
 
-### `npm run build`
+### 2. Installer les dépendances
+Installez les dépendances du projet en utilisant npm :
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. Lancer le serveur de développement
+Une fois les dépendances installées, vous pouvez lancer le serveur de développement :
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
+Visitez http://localhost:3000/ dans votre navigateur pour voir l'application en action.
 
-### `npm run eject`
+## Fonctionnalités
+- Navigation fluide entre les pages du site.
+- Affichage dynamique des produits disponibles.
+- Gestion du panier d'achats.
+- Intégration avec l'API Backend pour la gestion des commandes.
+- Connexion & Inscription
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Scripts disponibles
+Dans le répertoire du projet, vous pouvez exécuter les scripts suivants :
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm start
+```
+Lance le serveur de développement en mode développement.
+Ouvre automatiquement http://localhost:3000 dans votre navigateur.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm run build
+```
+Construit l'application pour la production dans le dossier build.
+Optimise React pour une meilleure performance.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Si vous n'êtes pas satisfait de la configuration de build et des dépendances, vous pouvez les "éjecter". Cette commande copiera toutes les configurations dans le projet, et vous donnera un contrôle total sur celles-ci.
 
-## Learn More
+## Déploiement
+Pour déployer ce projet en production, suivez les étapes suivantes :
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Exécutez npm run build pour créer le bundle optimisé pour la production.
+Déployez le contenu du dossier build sur votre serveur web préféré.
+Configurez votre serveur pour rediriger toutes les routes vers index.html si vous utilisez une application monopage (SPA).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contribuer
+Les contributions sont les bienvenues ! Si vous souhaitez contribuer au projet, merci de suivre les étapes suivantes :
 
-### Code Splitting
+- Forkez le dépôt.
+- Créez une branche pour votre fonctionnalité (git checkout -b nouvelle-fonctionnalite).
+- Commitez vos modifications (git commit -m 'Ajouter une nouvelle fonctionnalité').
+- Poussez sur la branche (git push origin nouvelle-fonctionnalite).
+- Ouvrez une Pull Request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Licence
+Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Remerciements
+Merci d'avoir utilisé Les biscuits de maman - Frontend ! Nous espérons que vous apprécierez ce projet autant que nous avons apprécié le développer.
