@@ -7,31 +7,30 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useCart } from '../../contexts/CartContext';
 
-const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
-const payments = [
-  { name: 'Card type:', detail: 'Visa' },
-  { name: 'Card holder:', detail: 'Mr. John Smith' },
-  { name: 'Card number:', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date:', detail: '04/2024' },
-];
-
-export default function Review() {
+export default function Review({ profileData, orderId }) {
+  const { cart } = useCart();
+  const totalAmount = cart.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
   return (
     <Stack spacing={2}>
+    <div>
+      <Typography variant="subtitle2" gutterBottom>
+        Numéro de commande
+      </Typography>
+      <Typography gutterBottom>{orderId}</Typography>
+    </div>
       <List disablePadding>
-        <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Products" secondary="4 selected" />
-          <Typography variant="body2">$134.98</Typography>
-        </ListItem>
-        <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Shipping" secondary="Plus taxes" />
-          <Typography variant="body2">$9.99</Typography>
-        </ListItem>
+        {cart.map((item) => (
+          <ListItem sx={{ py: 1, px: 0 }}>
+            <ListItemText primary={item.name} secondary={'Quantité : x' + item.quantity} />
+            <Typography variant="body2">{item.price * item.quantity} €</Typography>
+          </ListItem>
+        ))}
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $144.97
+            {totalAmount}€
           </Typography>
         </ListItem>
       </List>
@@ -44,33 +43,36 @@ export default function Review() {
       >
         <div>
           <Typography variant="subtitle2" gutterBottom>
-            Shipment details
+            Détails de la livraison
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
+          <Typography gutterBottom>{profileData.firstName} {profileData.lastName}</Typography>
           <Typography color="text.secondary" gutterBottom>
-            {addresses.join(', ')}
+            {profileData.address}, {profileData.postal}, {profileData.city}
           </Typography>
         </div>
         <div>
           <Typography variant="subtitle2" gutterBottom>
-            Payment details
+            Contact
+          </Typography>
+          <Typography color="text.secondary" gutterBottom>
+            {profileData.phone}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="subtitle2" gutterBottom>
+            Détails du paiement
           </Typography>
           <Grid container>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.name}>
                 <Stack
                   direction="row"
                   spacing={1}
                   useFlexGap
                   sx={{ width: '100%', mb: 1 }}
                 >
-                  <Typography variant="body1" color="text.secondary">
-                    {payment.name}
+                  <Typography color="text.secondary" gutterBottom>
+                    Virement Paypal à lesbiscuitsdemaman@gmail.com .
                   </Typography>
-                  <Typography variant="body2">{payment.detail}</Typography>
                 </Stack>
-              </React.Fragment>
-            ))}
           </Grid>
         </div>
       </Stack>

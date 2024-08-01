@@ -10,7 +10,7 @@ import faceIcon from '../../assets/images/face.png';
 
 const Footer = () => {
   return (
-    <footer className='bg-black text-white'>
+    <footer className='bg-black text-white mt-5'>
       <div className='m-0 d-flex'><Container className='w-50'>
         <img
           className="pt-5" style={{ width: '100%' }}

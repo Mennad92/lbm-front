@@ -11,11 +11,12 @@ import PaymentForm from '../components/order/PaymentForm';
 import Review from '../components/order/Review';
 import { useState, useEffect } from 'react';
 import profileService from '../services/profileService';
-
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Order() {
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = ['Adresse de livraison', 'Détails de paiement', 'Résumé de commande'];
+    const [isFetched, setIsFetched] = useState(false);
     const [profileForm, setProfileForm] = useState({
       firstName: '',
       lastName: '',
@@ -24,6 +25,7 @@ export default function Order() {
       city: '',
       postal: ''
     });
+    const [uuid, setUuid] = useState('');
   
     const handleChange = (event) => {
       setProfileForm({
@@ -33,36 +35,45 @@ export default function Order() {
     };
 
     useEffect(() => {
-      const fetchProfile = async () => {
-        try {
-          const data = await profileService.getProfile();
-          setProfileForm({
-            firstName: data.first_name || '',
-            lastName: data.last_name || '',
-            address: data.address || '',
-            phone: data.phone || '',
-            city: data.city || '',
-            postal: data.postal || ''
-          });
-        } catch (err) {
+        if(!isFetched) {
+            const fetchProfile = async () => {
+              try {
+                const response = await profileService.getProfile();
+                setProfileForm({
+                  firstName: response.data.first_name || '',
+                  lastName: response.data.last_name || '',
+                  address: response.data.address || '',
+                  phone: response.data.phone || '',
+                  city: response.data.city || '',
+                  postal: response.data.postal || ''
+                });
+              } catch (err) {
+              }
+            };
+        
+            fetchProfile();
+            setIsFetched(true);
+            setUuid(uuidv4());
+
         }
-      };
-  
-      fetchProfile();
-    }, []);
+    }, [isFetched]);
 
     function getStepContent(step) {
         switch (step) {
             case 0:
                 return (profileForm ? <AddressForm  profileData={profileForm} handleChange={handleChange} /> : 'Chargement en cours');
             case 1:
-                return <PaymentForm />;
+                return <PaymentForm orderId={uuid} />;
             case 2:
-                return <Review />;
+                return <Review profileData={profileForm} orderId={uuid} />;
             default:
                 throw new Error('Unknown step');
         }
     }
+
+    const isValidForm = () => {
+        return !(profileForm.firstName && profileForm.lastName && profileForm.address && profileForm.phone && profileForm.city && profileForm.postal);
+    };
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -75,7 +86,7 @@ export default function Order() {
     return (
         <>
             <CssBaseline />
-            <Grid container sx={{ height: { xs: '100%', sm: '100dvh' } }}>
+            <Grid container sx={{ height: { xs: '100%', sm: '100%' } }}>
                 <Grid
                     item
                     xs={12}
@@ -117,9 +128,9 @@ export default function Order() {
                         width: '100%',
                         backgroundColor: { xs: 'transparent', sm: 'background.default' },
                         alignItems: 'start',
-                        pt: { xs: 2, sm: 4 },
+                        pt: { xs: 0, sm: 0 },
                         px: { xs: 2, sm: 10 },
-                        gap: { xs: 4, md: 8 },
+                        gap: { xs: 0, md: 0 },
                     }}
                 >
                     <Box
@@ -219,11 +230,10 @@ export default function Order() {
                         {activeStep === steps.length ? (
                             <Stack spacing={2} useFlexGap>
                                 <Typography variant="h1">📦</Typography>
-                                <Typography variant="h5">Thank you for your order!</Typography>
+                                <Typography variant="h5">Merci pour votre commande!</Typography>
                                 <Typography variant="body1" color="text.secondary">
-                                    Your order number is
-                                    <strong>&nbsp;#140396</strong>. We have emailed your order
-                                    confirmation and will update you once its shipped.
+                                    Votre numéro de commande est 
+                                    <strong>&nbsp;{uuid}</strong>. Vous pouvez suivre l'état d'avancement de votre commande depuis le menu Vos commandes.
                                 </Typography>
                                 <Button
                                     variant="contained"
@@ -232,7 +242,7 @@ export default function Order() {
                                         width: { xs: '100%', sm: 'auto' },
                                     }}
                                 >
-                                    Go to my orders
+                                    Voir vos commandes
                                 </Button>
                             </Stack>
                         ) : (
@@ -245,10 +255,10 @@ export default function Order() {
                                         justifyContent: activeStep !== 0 ? 'space-between' : 'flex-end',
                                         alignItems: 'end',
                                         flexGrow: 1,
-                                        gap: 1,
+                                        gap: 0,
                                         pb: { xs: 12, sm: 0 },
                                         mt: { xs: 2, sm: 0 },
-                                        mb: '60px',
+                                        mb: '20px',
                                     }}
                                 >
                                     {activeStep !== 0 && (
@@ -282,6 +292,7 @@ export default function Order() {
                                         variant="contained"
                                         endIcon={<ChevronRightRoundedIcon />}
                                         onClick={handleNext}
+                                        disabled={isValidForm()}
                                         sx={{
                                             width: { xs: '100%', sm: 'fit-content' },
                                         }}

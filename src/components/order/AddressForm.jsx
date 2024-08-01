@@ -9,7 +9,7 @@ const FormGrid = styled(Grid)(() => ({
   flexDirection: 'column',
 }));
 
-export default function AddressForm({ profileForm, handleChange }) {
+export default function AddressForm({ profileData, handleChange }) {
 
   return (
     <Grid container spacing={3}>
@@ -23,7 +23,7 @@ export default function AddressForm({ profileForm, handleChange }) {
           type="name"
           placeholder="Prénom"
           autoComplete="first name"
-          onChange={handleChange} value={profileForm?.firstName}
+          onChange={handleChange} value={profileData.firstName}
           required
         />
       </FormGrid>
@@ -37,7 +37,7 @@ export default function AddressForm({ profileForm, handleChange }) {
           type="last-name"
           placeholder="Nom"
           autoComplete="last name"
-          onChange={handleChange} value={profileForm?.lastName}
+          onChange={handleChange} value={profileData.lastName}
           required
         />
       </FormGrid>
@@ -51,7 +51,7 @@ export default function AddressForm({ profileForm, handleChange }) {
           type="address1"
           placeholder="Numéro et nom de rue"
           autoComplete="shipping address-line1"
-          onChange={handleChange} value={profileForm?.address}
+          onChange={handleChange} value={profileData.address}
           required
         />
       </FormGrid>
@@ -65,7 +65,7 @@ export default function AddressForm({ profileForm, handleChange }) {
           type="city"
           placeholder="Ville"
           autoComplete="City"
-          onChange={handleChange} value={profileForm?.city}
+          onChange={handleChange} value={profileData.city}
           required
         />
       </FormGrid>
@@ -79,7 +79,7 @@ export default function AddressForm({ profileForm, handleChange }) {
           type="zip"
           placeholder="Code postal"
           autoComplete="shipping postal-code"
-          onChange={handleChange} value={profileForm?.postal}
+          onChange={handleChange} value={profileData.postal}
           required
         />
       </FormGrid>
@@ -93,7 +93,7 @@ export default function AddressForm({ profileForm, handleChange }) {
           type="phone"
           placeholder="Numéro de téléphone portable"
           autoComplete="shipping phone"
-          onChange={handleChange} value={profileForm?.phone}
+          onChange={handleChange} value={profileData.phone}
           required
         />
       </FormGrid>

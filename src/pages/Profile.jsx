@@ -10,15 +10,9 @@ const Profile = () => {
   const navigate = useNavigate();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
   const [isUpdated, setIsUpdated] = useState(true);
+  const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
-  const [profileForm, setProfileForm] = useState({
-    firstName: '',
-    lastName: '',
-    address: '',
-    phone: '',
-    city: '',
-    postal: ''
-  });
+  const [profileForm, setProfileForm] = useState({});
 
   
   function getUserId() {
@@ -42,8 +36,14 @@ const Profile = () => {
     setIsUpdated(false);
   };
 
-  function handleSubmit() {
-    const data = profileService.updateProfile(getUserId(), profileForm);
+
+  const handleSubmit = async () => {
+    try {
+      const data = await profileService.updateProfile(getUserId(), profileForm);
+      setIsUpdated(true);
+    } catch (err) {
+      setError('Erreur lors de la mise à jour du profil');
+    }
   };
 
 
@@ -54,30 +54,33 @@ const Profile = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const data = await profileService.getProfile();
-        setProfileForm({
-          firstName: data.first_name || '',
-          lastName: data.last_name || '',
-          address: data.address || '',
-          phone: data.phone || '',
-          city: data.city || '',
-          postal: data.postal || ''
-        });
-      } catch (err) {
-        setError('Erreur lors de la récupération du profil');
-      }
-    };
-
-    fetchProfile();
-  }, []);
+    if(!isFetched){
+      const fetchProfile = async () => {
+        try {
+          const response = await profileService.getProfile();
+          setProfileForm({
+            firstName: response.data.first_name,
+            lastName: response.data.last_name,
+            address: response.data.address,
+            phone: response.data.phone,
+            city: response.data.city,
+            postal: response.data.postal
+          });
+        } catch (err) {
+          setError('Erreur lors de la récupération du profil');
+        }
+      };
+  
+      fetchProfile();
+      setIsFetched(true);
+    }
+  }, [isFetched]);
 
   if (error) return <div>{error}</div>;
 
   return (
     <>
-      {profileForm ? (
+      {isFetched ? (
         <div>
           <h2>Profil</h2>
           <AddressForm profileData={profileForm} handleChange={handleChange} />
@@ -87,7 +90,7 @@ const Profile = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             disabled={isUpdated}
-            onClick={handleSubmit()}
+            onClick={handleSubmit}
           >
             Mettre à jour le profil
           </Button>
