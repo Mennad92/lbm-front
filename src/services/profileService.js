@@ -4,7 +4,7 @@ function profileService() {
 
   const register = ({ email, password }) => {
     return client.post(
-      "register",
+      "register/",
       { email, password },
       { authorization: false }
     );
@@ -12,14 +12,14 @@ function profileService() {
   
   const login = ({ email, password }) => {
       return client.post(
-        "login",
+        "login/",
         { email, password },
         { authorization: false }
       );
     }
 
   const getProfile = () => {
-    return client.get('profile',
+    return client.get('profile/',
       { authorization: true }
     );
   };
