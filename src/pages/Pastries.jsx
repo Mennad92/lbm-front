@@ -15,7 +15,7 @@ const Pastries = () => {
     if (!isFetched) {
       productService.getProductsByCategory(2)
         .then((json) => {
-          setProducts(json);
+          setProducts(json.data);
           setIsFetched(true);
           setLoading(false);
         })

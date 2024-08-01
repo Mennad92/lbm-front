@@ -15,7 +15,7 @@ const Biscuits = () => {
     if (!isFetched) {
       productService.getProductsByCategory(1)
         .then((json) => {
-          setProducts(json);
+          setProducts(json.data);
           setIsFetched(true);
           setLoading(false);
         })

@@ -9,7 +9,7 @@ function productService() {
   };
 
   const getProductsByCategory = (categoryId) => {
-    return client.get('products?category=${categoryId}/',
+    return client.get('products?category=' + categoryId,
       { authorization: false }
     );
   };
