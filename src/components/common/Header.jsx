@@ -46,6 +46,7 @@ const Header = () => {
                     {isLoggedIn ? (
                       <>
                         <Dropdown.Item as={Link} to="/profile">Profil</Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/orderlist">Vos commandes</Dropdown.Item>
                         <Dropdown.Item onClick={handleLogout}>Déconnexion</Dropdown.Item>
                       </>
                     ) : (

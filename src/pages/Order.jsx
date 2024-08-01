@@ -16,9 +16,10 @@ import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from '../stores/authStore';
 import orderService from '../services/orderService';
 import { useCart } from '../contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Order() {
-    const { cart } = useCart();
+    const { cart, clearCart } = useCart();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = ['Adresse de livraison', 'Détails de paiement', 'Résumé de commande'];
     const [isFetched, setIsFetched] = useState(false);
@@ -31,6 +32,11 @@ export default function Order() {
       postal: ''
     });
     const [uuid, setUuid] = useState('');
+    const navigate = useNavigate();
+
+    const goToOrderList = () => {
+        navigate('/orderlist');
+    };
 
     function getUserId() {
       const accessToken = useAuthStore.getState().accessToken;
@@ -105,6 +111,7 @@ export default function Order() {
             } catch (err) {
                 console.error(err);
             }
+            clearCart();
 
         }       
         setActiveStep(activeStep + 1);
@@ -272,6 +279,7 @@ export default function Order() {
                                         alignSelf: 'start',
                                         width: { xs: '100%', sm: 'auto' },
                                     }}
+                                    onClick={goToOrderList}
                                 >
                                     Voir vos commandes
                                 </Button>

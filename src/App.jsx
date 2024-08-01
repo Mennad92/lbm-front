@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Pastries from './pages/Pastries';
 import Biscuits from './pages/Biscuits';
+import OrderList from './pages/OrderList';
 import { 
   action as loginAction, 
   Login 
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <Order />,
+      },
+      {
+        path: "/orderlist",
+        element: <OrderList />,
       },
       {
         path: "*",
