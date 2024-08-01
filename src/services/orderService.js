@@ -11,7 +11,9 @@ function orderService() {
   const createOrder = (orderData) => {
     return client.post('orders/',
       {
-        orderData
+        'uuid': orderData.uuid,
+        'status': 'WAITING_FOR_PAYMENT',
+        'elements': orderData.elements
       },
       { authorization: true }
     );

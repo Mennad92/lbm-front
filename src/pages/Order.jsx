@@ -14,8 +14,11 @@ import profileService from '../services/profileService';
 import { v4 as uuidv4 } from 'uuid';
 import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from '../stores/authStore';
+import orderService from '../services/orderService';
+import { useCart } from '../contexts/CartContext';
 
 export default function Order() {
+    const { cart } = useCart();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = ['Adresse de livraison', 'Détails de paiement', 'Résumé de commande'];
     const [isFetched, setIsFetched] = useState(false);
@@ -97,11 +100,14 @@ export default function Order() {
             } catch (err) {
                 console.error(err);
             }
+            try {
+              await orderService.createOrder({'uuid': uuid, 'elements': cart});
+            } catch (err) {
+                console.error(err);
+            }
 
-        }        
-        else {
-            setActiveStep(activeStep + 1);
-        }    
+        }       
+        setActiveStep(activeStep + 1);
     };
 
     const handleBack = () => {
