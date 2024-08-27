@@ -12,7 +12,7 @@ function orderService() {
     return client.post('orders/',
       {
         'uuid': orderData.uuid,
-        'status': 'WAITING_FOR_PAYMENT',
+        'status': 'En attente de paiement',
         'elements': orderData.elements
       },
       { authorization: true }

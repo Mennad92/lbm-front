@@ -25,8 +25,9 @@ export async function action({ request }) {
     const refreshToken = data.refresh;
     return { tokens: { accessToken, refreshToken }, error: null };
   } catch (error) {
+    console.log(error);
     return {
-      error: error.response.data.message || error.message,
+      error: 'Email ou mot de passe incorrect',
       tokens: null,
     };
   }

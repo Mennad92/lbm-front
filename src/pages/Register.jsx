@@ -64,7 +64,7 @@ export function Register() {
   const validatePassword = (password) => {
     const minLength = 8;
     const hasNumber = /\d/;
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+    const hasSpecialChar = /[-!@#$%^&*(),.?":{}|<>]/;
     
     return password.length >= minLength && 
            hasNumber.test(password) && 

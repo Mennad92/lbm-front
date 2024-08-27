@@ -13,7 +13,6 @@ const Profile = () => {
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
   const [profileForm, setProfileForm] = useState({});
-
   
   function getUserId() {
     const accessToken = useAuthStore.getState().accessToken;
