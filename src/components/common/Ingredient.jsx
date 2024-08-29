@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Form, Dropdown } from 'react-bootstrap';
 import noisette from '../../assets/images/noisette.png';
 
-const ingredientsList = [
-  'Farine', 'Sucre', 'Beurre', 'Chocolat', 'Noix', 'Avoine', 'Cannelle'
-];
-
-
 const BiscuitForm = () => {
+  const [ingredientsList, setIngredientsList] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchIngredients = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/ingredients/');
+        const data = await response.json();
+        setIngredientsList(data);
+      } catch (error) {
+        console.error('Error fetching ingredients:', error);
+      }
+    };
+
+    fetchIngredients();
+  }, []);
 
   const handleIngredientChange = (event) => {
     const ingredient = event.target.value;
@@ -22,29 +32,27 @@ const BiscuitForm = () => {
 
   return (
     <Container className='text-center'>
-    
-          <Dropdown show={dropdownOpen} onToggle={() => setDropdownOpen(!dropdownOpen)}>
-            <Dropdown.Toggle variant="light" id="dropdown-basic" className='border libre px-3 border-2'>
-             <img src={noisette} alt="noisette" className="me-5" style={{width: "18px"}} />Ingrédients
-            </Dropdown.Toggle>
+      <Dropdown show={dropdownOpen} onToggle={() => setDropdownOpen(!dropdownOpen)}>
+        <Dropdown.Toggle variant="light" id="dropdown-basic" className='border libre px-3 border-2'>
+          <img src={noisette} alt="noisette" className="me-5" style={{ width: "18px" }} />Ingrédients
+        </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <div style={{ maxHeight: '200px', overflowY: 'scroll', padding: '10px' }}>
-                {ingredientsList.map((ingredient, index) => (
-                  <Form.Check
-                    key={index}
-                    type="checkbox"
-                    id={`ingredient-${index}`}
-                    label={ingredient}
-                    value={ingredient}
-                    onChange={handleIngredientChange}
-                    checked={selectedIngredients.includes(ingredient)}
-                  />
-                ))}
-              </div>
-            </Dropdown.Menu>
-          </Dropdown>
-    
+        <Dropdown.Menu>
+          <div style={{ maxHeight: '200px', overflowY: 'scroll', padding: '10px' }}>
+            {ingredientsList.map((ingredient, index) => (
+              <Form.Check
+                key={ingredient.id}
+                type="checkbox"
+                id={`ingredient-${ingredient.id}`}
+                label={ingredient.name}
+                value={ingredient.name}
+                onChange={handleIngredientChange}
+                checked={selectedIngredients.includes(ingredient.name)}
+              />
+            ))}
+          </div>
+        </Dropdown.Menu>
+      </Dropdown>
     </Container>
   );
 };
