@@ -59,7 +59,7 @@ const ProductList = ({ category, products = [] }) => {
               const price = parseFloat(product.price);
               const formattedPrice = isNaN(price) ? 'N/A' : price.toFixed(2);
               const quantity = quantities[product.id] || 1;
-              
+
               return (
                 <Col key={product.id} sm={12} md={6} lg={4} className="mb-4">
                   <Card className="h-100">
@@ -118,6 +118,7 @@ const ProductList = ({ category, products = [] }) => {
                       src={selectedProduct.illustration}
                       alt={selectedProduct.name}
                       className="img-fluid mb-3"
+                      style={{ width: '150px', height: '100px', objectFit: 'cover' }}
                     />
                   )}
                   <p>{selectedProduct.description}</p>

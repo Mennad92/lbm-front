@@ -62,8 +62,8 @@ function Home() {
                 <Card.Text className='fs-4 w-75 text-center mx-auto mb-5'>
                   Savourez les Biscuits de Maman originaux fabriqués avec des produits 100% bio
                 </Card.Text>
-                <div className="d-flex justify-content-center">
-                <Nav.Link as={Link} to="/biscuits"><Button variant="outline-primary">VISITER BISCUITERIE</Button></Nav.Link>
+                <div className="d-flex justify-content-center text-creme">
+                <Nav.Link as={Link} to="/biscuits"><Button variant="outline-creme">VISITER BISCUITERIE</Button></Nav.Link>
                 </div>
               </Card.Body>
             </Card>
@@ -79,8 +79,8 @@ function Home() {
                 <Card.Text className='fs-4 w-75 mx-auto text-center mb-5'>
                   Les pâtisseries Orientale de Sam Hattal sont les meilleures du monde.
                 </Card.Text>
-                <div className="d-flex justify-content-center">
-                <Nav.Link as={Link} to="/pastries"><Button variant="outline-primary">VISITER PÂTISSERIE</Button></Nav.Link>
+                <div className="d-flex justify-content-center text-creme">
+                <Nav.Link as={Link} to="/pastries"><Button variant="outline-creme">VISITER PÂTISSERIE</Button></Nav.Link>
                 </div>
               </Card.Body>
             </Card>

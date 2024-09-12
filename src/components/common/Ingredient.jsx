@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Form, Dropdown } from 'react-bootstrap';
 import noisette from '../../assets/images/noisette.png';
 
-const BiscuitForm = () => {
+const Ingredient = ({ onIngredientsChange }) => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -22,12 +22,15 @@ const BiscuitForm = () => {
   }, []);
 
   const handleIngredientChange = (event) => {
-    const ingredient = event.target.value;
-    setSelectedIngredients(prevSelected =>
-      prevSelected.includes(ingredient)
-        ? prevSelected.filter(item => item !== ingredient)
-        : [...prevSelected, ingredient]
-    );
+    const ingredientId = parseInt(event.target.value);
+    const updatedSelectedIngredients = selectedIngredients.includes(ingredientId)
+      ? selectedIngredients.filter(item => item !== ingredientId)
+      : [...selectedIngredients, ingredientId];
+
+    setSelectedIngredients(updatedSelectedIngredients);
+    if (onIngredientsChange && typeof onIngredientsChange === 'function') {
+      onIngredientsChange(updatedSelectedIngredients);
+    }
   };
 
   return (
@@ -39,15 +42,15 @@ const BiscuitForm = () => {
 
         <Dropdown.Menu>
           <div style={{ maxHeight: '200px', overflowY: 'scroll', padding: '10px' }}>
-            {ingredientsList.map((ingredient, index) => (
+            {ingredientsList.map((ingredient) => (
               <Form.Check
                 key={ingredient.id}
                 type="checkbox"
                 id={`ingredient-${ingredient.id}`}
                 label={ingredient.name}
-                value={ingredient.name}
+                value={ingredient.id}
                 onChange={handleIngredientChange}
-                checked={selectedIngredients.includes(ingredient.name)}
+                checked={selectedIngredients.includes(ingredient.id)}
               />
             ))}
           </div>
@@ -57,4 +60,4 @@ const BiscuitForm = () => {
   );
 };
 
-export default BiscuitForm;
+export default Ingredient;
