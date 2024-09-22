@@ -3,7 +3,7 @@ import profileService from '../services/profileService';
 import AddressForm from '../components/order/AddressForm';
 import { useAuthStore } from '../stores/authStore';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Snackbar } from '@mui/material';
 import { jwtDecode } from "jwt-decode";
 
 const Profile = () => {
@@ -13,7 +13,8 @@ const Profile = () => {
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
   const [profileForm, setProfileForm] = useState({});
-  
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   function getUserId() {
     const accessToken = useAuthStore.getState().accessToken;
     if (accessToken) {
@@ -35,16 +36,22 @@ const Profile = () => {
     setIsUpdated(false);
   };
 
-
   const handleSubmit = async () => {
     try {
       const data = await profileService.updateProfile(getUserId(), profileForm);
       setIsUpdated(true);
+      setOpenSnackbar(true); 
     } catch (err) {
       setError('Erreur lors de la mise à jour du profil');
     }
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -93,7 +100,12 @@ const Profile = () => {
           >
             Mettre à jour le profil
           </Button>
-           
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            message="Votre profil a bien été mis à jour"
+          />
         </div>
       ) : (
         <div>Chargement...</div>

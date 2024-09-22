@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, ButtonGroup, Toast, ToastContainer, Modal } from 'react-bootstrap';
 import { useCart } from '../../contexts/CartContext';
+import productService from '../../services/productService'; 
 
-const ProductList = ({ category, products = [] }) => {
+const ProductList = ({ products = [] }) => {
   const [quantities, setQuantities] = useState({});
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -44,6 +45,14 @@ const ProductList = ({ category, products = [] }) => {
 
   const handleShowModal = (product) => {
     setSelectedProduct(product);
+  
+    productService.countVisits(product.id)
+      .then(response => {
+        console.log('Visite comptabilisée pour le produit:', product.id);
+      })
+      .catch(error => {
+        console.error('Erreur lors du comptage de la visite:', error);
+      });
   };
 
   const handleCloseModal = () => {

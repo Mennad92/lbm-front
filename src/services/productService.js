@@ -14,9 +14,16 @@ function productService() {
     );
   };
 
+  const countVisits = (productId) => {
+    return client.get(`count-visits?product_id=${productId}`, 
+      { authorization: false }
+    );
+  };
+
   return {
     getProducts,
     getProductsByCategory,
+    countVisits,
   };
 }
 

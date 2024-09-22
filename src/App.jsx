@@ -2,8 +2,6 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
-import Pastries from './pages/Pastries';
-import Biscuits from './pages/Biscuits';
 import OrderList from './pages/OrderList';
 import { 
   action as loginAction, 
@@ -15,6 +13,7 @@ import {
   action as registerAction,
   Register } from './pages/Register';
 import { Root } from './pages/Root';
+import ProductCategory from './pages/ProductCategory';
 
 const router = createBrowserRouter([
   {
@@ -26,12 +25,12 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/pastries",
-        element: <Pastries />,
+        path: "/biscuits",
+        element: <ProductCategory categoryId={1} title="Les Biscuits" />,
       },
       {
-        path: "/biscuits",
-        element: <Biscuits />,
+        path: "/pastries",
+        element: <ProductCategory categoryId={2} title="Les Pâtisseries Orientales" />,
       },
       {
         path: "/login",
