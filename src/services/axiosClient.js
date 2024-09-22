@@ -1,7 +1,7 @@
 import { createAxiosClient } from "./createAxiosClient";
 import { useAuthStore } from "../stores/authStore";
 
-const BASE_URL = 'http://localhost:8000/api/'
+export const BASE_URL = process.env.REACT_APP_BACKEND_URL + 'api/' || 'http://localhost:8000/api/'
 const REFRESH_TOKEN_URL = BASE_URL + 'refresh/'
 
 function getCurrentAccessToken() {

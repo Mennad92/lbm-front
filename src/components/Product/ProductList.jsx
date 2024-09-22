@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, ButtonGroup, Toast, ToastContainer, Modal } from 'react-bootstrap';
 import { useCart } from '../../contexts/CartContext';
 import productService from '../../services/productService'; 
+import { BASE_URL } from '../../services/axiosClient';
 
 const ProductList = ({ products = [] }) => {
   const [quantities, setQuantities] = useState({});
@@ -14,7 +15,7 @@ const ProductList = ({ products = [] }) => {
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/ingredients/');
+        const response = await fetch(BASE_URL + 'ingredients/');
         const data = await response.json();
         setIngredientsList(data);
       } catch (error) {

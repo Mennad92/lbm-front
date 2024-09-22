@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Form, Dropdown } from 'react-bootstrap';
 import noisette from '../../assets/images/noisette.png';
+import { BASE_URL } from '../../services/axiosClient';
 
 const Ingredient = ({ onIngredientsChange }) => {
   const [ingredientsList, setIngredientsList] = useState([]);
@@ -10,7 +11,7 @@ const Ingredient = ({ onIngredientsChange }) => {
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/ingredients/');
+        const response = await fetch(BASE_URL + 'ingredients/');
         const data = await response.json();
         setIngredientsList(data);
       } catch (error) {
