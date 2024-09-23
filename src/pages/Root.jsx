@@ -9,7 +9,7 @@ export function Root() {
     <CartProvider>
     <div>
       <Header />
-      <main className='d-block mt-5'>
+      <main className='d-block'>
         <Outlet />
       </main>
       <Footer />
