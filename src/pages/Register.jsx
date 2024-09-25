@@ -85,9 +85,9 @@ export function Register() {
   return (
     <div>
       <Form method="post">
-        <h1>Inscription</h1>
+        <h1 className='text-center m-5 text-creme'>Inscription</h1>
         {actionData?.error && <div className="alert">{actionData?.error}</div>}
-        <Grid container spacing={3}>
+        <Grid container spacing={3} justifyContent={"center"}>
           <FormGrid item xs={12} md={8}>
             <FormLabel htmlFor="mail" required>
               Email
