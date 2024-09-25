@@ -80,10 +80,10 @@ export function Login() {
   return (
     <div>
       <Form method="post">
-        <h1>Connexion</h1>
+        <h1 className='text-center m-5 text-creme'>Connexion</h1>
         {actionData?.error && <div className="alert">{actionData?.error}</div>}
-        <Grid container spacing={3}>
-          <FormGrid item xs={12} md={12}>
+        <Grid container spacing={3} justifyContent={"center"}>
+          <FormGrid item xs={12} md={8}>
             <FormLabel htmlFor="mail" required>
               Email
             </FormLabel>
@@ -95,7 +95,7 @@ export function Login() {
               required
             />
           </FormGrid>
-          <FormGrid item xs={12} md={12}>
+          <FormGrid item xs={12} md={8}>
             <FormLabel htmlFor="password" required>
               Mot de passe
             </FormLabel>
